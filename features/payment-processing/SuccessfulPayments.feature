@@ -1,4 +1,4 @@
-@sep30
+@sep30 @stripe
 Feature: Successful Payments
     Background:
         Given I have a valid Stripe API test key

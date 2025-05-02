@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+
+    environment {
+        NODE_ENV = 'test'
+    }
+
+    tools {
+        nodejs 'NodeJS_20' // Update this to match your Jenkins NodeJS tool name
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git url: 'https://github.com/Riaz11-coder/Cucumber_Playwright_TypeScript_Automation.git', branch: 'Develop'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                sh 'npm test'
+            }
+        }
+    }
+
+    post {
+        always {
+            junit '**/reports/**/*.xml' // Optional: for test reporting
+            archiveArtifacts artifacts: '**/reports/**/*.*', allowEmptyArchive: true
+        }
+    }
+}

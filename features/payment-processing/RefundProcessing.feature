@@ -1,4 +1,4 @@
-@sep31
+@sep31 @stripe
 Feature: Refund Processing
     Background:
         Given I have a valid Stripe API test key

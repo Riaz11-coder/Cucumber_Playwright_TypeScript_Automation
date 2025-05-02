@@ -1,4 +1,4 @@
-@sep32
+@sep32 @stripe
 Feature: Declined Payments
     Background:
         Given I have a valid Stripe API test key

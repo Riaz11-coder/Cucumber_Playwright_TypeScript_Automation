@@ -1,4 +1,4 @@
-@sep33
+@sep33 @stripe
 Feature: Customer Management
     Background:
         Given I have a valid Stripe API test key
