@@ -5,7 +5,7 @@ module.exports = {
   default: {
 
     // Run tests in parallel using 2 workers
-    parallel: 2,
+    parallel: 6,
 
     // Location of feature files
     paths: ["./features/**/*.feature"],
