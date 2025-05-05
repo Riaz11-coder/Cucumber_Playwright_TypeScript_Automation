@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npx cucumber-js",
-    "test:tag": "npx cucumber-js --tags @create-booking",
+    "test:tag": "npx cucumber-js --tags @sep08",
     "test:smoke": "npx cucumber-js --tags @smoke",
     "test:api": "cross-env TEST_TYPE=api npx cucumber-js --tags @api",
     "test:ui": "cross-env TEST_TYPE=ui npx cucumber-js --tags @ui",

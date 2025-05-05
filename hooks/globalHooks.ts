@@ -4,7 +4,6 @@ import { initElements } from "../globalPagesSetup";
 import fs from "fs";
 import path from "path";
 import dotenv from 'dotenv';
-import { getStripeCredentials } from '../utilities/jsonUtils';
 import { ApiClient } from '../utilities/apiClient';
 import { apiConfig } from '../configs/apiConfig';
 import type { Booking } from '../models/booking';

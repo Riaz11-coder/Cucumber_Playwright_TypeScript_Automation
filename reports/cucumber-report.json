@@ -1,72 +1,101 @@
 [
   {
-    "description": "    As an API user\n    I want to manage bookings\n    So that I can create, retrieve, update and delete booking records",
+    "description": "    As a customer, I should be able to know where I am in the checkout process using the stepper.",
     "elements": [
       {
         "description": "",
-        "id": "booking-api;create-a-new-booking",
+        "id": "display-the-steps-of-the-checkout-process;verify-the-checkout-process-steps-are-displayed-correctly",
         "keyword": "Scenario",
-        "line": 17,
-        "name": "Create a new booking",
+        "line": 13,
+        "name": "Verify the checkout process steps are displayed correctly",
         "steps": [
           {
             "keyword": "Before",
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 2538176249
+              "duration": 1902513812
             }
           },
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 8,
-            "name": "I am authenticated with the booking API",
+            "line": 11,
+            "name": "user is on the enrollment page",
             "match": {
-              "location": "steps/bookings/commonSteps.ts:7"
+              "location": "steps/getting-started/startAndRefundDates.ts:6"
             },
             "result": {
               "status": "passed",
-              "duration": 413023666
+              "duration": 1597064439
             }
           },
           {
-            "arguments": [],
-            "keyword": "When ",
-            "line": 18,
-            "name": "I create a new booking with valid details",
-            "match": {
-              "location": "steps/bookings/bookings.ts:15"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 38056042
-            }
-          },
-          {
-            "arguments": [],
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "Step Number",
+                      "Step Name"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "1",
+                      "Start Application"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "2",
+                      "Payment plan"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "3",
+                      "Review"
+                    ]
+                  }
+                ]
+              }
+            ],
             "keyword": "Then ",
-            "line": 19,
-            "name": "the API response status should be 200",
+            "line": 14,
+            "name": "the system should display the steps of the checkout process as:",
             "match": {
-              "location": "steps/bookings/bookings.ts:27"
+              "location": "steps/getting-started/displayCheckoutProcessSteps.ts:6"
             },
             "result": {
               "status": "passed",
-              "duration": 6862458
+              "duration": 34570730
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 19,
+            "name": "the system should highlight \"Start Application\" in blue",
+            "match": {
+              "location": "steps/getting-started/displayCheckoutProcessSteps.ts:12"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 19060605
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 20,
-            "name": "the booking data should be returned",
+            "name": "the system should display \"Payment Plan\" and \"Review\" in grey",
             "match": {
-              "location": "steps/bookings/bookings.ts:31"
+              "location": "steps/getting-started/displayCheckoutProcessSteps.ts:17"
             },
             "result": {
               "status": "passed",
-              "duration": 8370291
+              "duration": 11163001
             }
           },
           {
@@ -74,65 +103,29 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 157562791
-            }
-          },
-          {
-            "keyword": "After",
-            "hidden": true,
-            "result": {
-              "status": "passed",
-              "duration": 683624
-            }
-          },
-          {
-            "keyword": "After",
-            "hidden": true,
-            "result": {
-              "status": "passed",
-              "duration": 178791
-            }
-          },
-          {
-            "keyword": "After",
-            "hidden": true,
-            "result": {
-              "status": "passed",
-              "duration": 120750
-            }
-          },
-          {
-            "keyword": "After",
-            "hidden": true,
-            "result": {
-              "status": "passed",
-              "duration": 1311250
+              "duration": 320189479
             }
           }
         ],
         "tags": [
           {
-            "name": "@api",
+            "name": "@sep08",
             "line": 1
-          },
-          {
-            "name": "@create-booking",
-            "line": 16
           }
         ],
         "type": "scenario"
       }
     ],
-    "id": "booking-api",
+    "id": "display-the-steps-of-the-checkout-process",
     "line": 2,
     "keyword": "Feature",
-    "name": "Booking API",
+    "name": "Display the steps of the checkout process",
     "tags": [
       {
-        "name": "@api",
+        "name": "@sep08",
         "line": 1
       }
     ],
-    "uri": "features/bookings/booking.feature"
+    "uri": "features/getting-started/DisplayCheckoutProcessSteps.feature"
   }
 ]
