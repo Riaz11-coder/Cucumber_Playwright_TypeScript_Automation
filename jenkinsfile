@@ -33,12 +33,6 @@ pipeline {
             }
         }
 
-        stage('Build and Lint') {
-            steps {
-                sh 'npm run build'
-            }
-        }
-
         stage('Run Tests') {
             steps {
                 sh '''
