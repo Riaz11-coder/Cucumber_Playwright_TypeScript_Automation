@@ -14,7 +14,7 @@ pipeline {
 
     options {
         timestamps()
-        ansiColor('xterm')
+        
     }
 
     stages {
@@ -37,11 +37,14 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
-            steps {
-                sh 'npm test'  // Adjust if using specific Playwright script
-            }
+    stage('Run Tests') {
+    steps {
+        ansiColor('xterm') {
+            sh 'npm run test'
         }
+    }
+}
+
 
         stage('Generate HTML Report') {
             steps {
