@@ -19,10 +19,11 @@ pipeline {
 
     stages {
         stage('Checkout') {
-            steps {
-                git branch: 'Develop', url: 'https://github.com/Riaz11-coder/Cucumber_Playwright_TypeScript_Automation.git'
-            }
-        }
+    steps {
+        cleanWs() // Cleans the workspace before checkout
+        git url: 'https://github.com/Riaz11-coder/Cucumber_Playwright_TypeScript_Automation.git', branch: 'Develop'
+    }
+}
 
         stage('Install Dependencies') {
             steps {
