@@ -3,36 +3,69 @@ pipeline {
 
     environment {
         NODE_ENV = 'test'
+        SEP_CREDS = credentials('sep-username')  // Jenkins Credentials ID
+        SEP_URL = credentials('sep-url')
     }
 
-    tools {
-        nodejs 'NodeJS_20' // Update this to match your Jenkins NodeJS tool name
+    triggers {
+        pollSCM('H 5 * * *') // Poll every minute (change as needed)
+        // Or use: triggers { githubPush() } if using GitHub webhooks
+    }
+
+    options {
+        timestamps()
+        ansiColor('xterm')
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/Riaz11-coder/Cucumber_Playwright_TypeScript_Automation.git', branch: 'Develop'
+                git branch: 'Develop', url: 'https://github.com/Riaz11-coder/Cucumber_Playwright_TypeScript_Automation.git'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                sh 'npm ci'
+            }
+        }
+
+        stage('Lint and Compile') {
+            steps {
+                sh 'npm run lint'
+                sh 'npm run build'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'npm test'
+                sh 'npm test'  // Adjust if using specific Playwright script
+            }
+        }
+
+        stage('Generate HTML Report') {
+            steps {
+                sh 'npm run generate-report' // Ensure this generates reports/html/index.html
             }
         }
     }
 
     post {
         always {
-            junit '**/reports/**/*.xml' // Optional: for test reporting
-            archiveArtifacts artifacts: '**/reports/**/*.*', allowEmptyArchive: true
+            publishHTML([
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'reports/cucumber-report.html',
+                reportFiles: 'index.html',
+                reportName: 'Cucumber HTML Report'
+            ])
+        }
+
+        failure {
+            mail to: 'riaz11@hotmail.com',
+                 subject: "Jenkins Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                 body: "Check the Jenkins job at ${env.BUILD_URL}"
         }
     }
 }
