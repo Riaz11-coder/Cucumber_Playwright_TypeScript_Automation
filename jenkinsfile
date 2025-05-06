@@ -57,9 +57,9 @@ pipeline {
                 allowMissing: false,
                 alwaysLinkToLastBuild: true,
                 keepAll: true,
-                reportDir: 'reports/cucumber-report.html',
+                reportDir: '/reports',
                 reportFiles: 'index.html',
-                reportName: 'Cucumber HTML Report'
+                reportName: 'Jenkins-Cucumber HTML Report'
             ])
         }
 
