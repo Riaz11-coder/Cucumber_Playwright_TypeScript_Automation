@@ -1,55 +1,67 @@
 pipeline {
     agent any
 
+    tools {
+        nodejs 'NodeJS_20' // Make sure this matches your configured tool name
+    }
+
     environment {
         NODE_ENV = 'test'
-        SEP_CREDS = credentials('sep-username')  // Jenkins Credentials ID
-        SEP_URL = credentials('sep-url')
+        SEP_CREDS = credentials('sep-username')  // Jenkins ID for Username+Password credential
+        SEP_URL = credentials('sep-url')         // Jenkins ID for a Secret Text credential
     }
 
     triggers {
-        pollSCM('H 5 * * *') // Poll every minute (change as needed)
-        // Or use: triggers { githubPush() } if using GitHub webhooks
+        pollSCM('H 5 * * *') // Polls the SCM every day at 5 minutes past the hour
     }
 
     options {
         timestamps()
-        
     }
 
     stages {
         stage('Checkout') {
-    steps {
-        cleanWs() // Cleans the workspace before checkout
-        git url: 'https://github.com/Riaz11-coder/Cucumber_Playwright_TypeScript_Automation.git', branch: 'Develop'
-    }
-}
+            steps {
+                cleanWs()
+                git url: 'https://github.com/Riaz11-coder/Cucumber_Playwright_TypeScript_Automation.git', branch: 'Develop'
+            }
+        }
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm ci'
+                ansiColor('xterm') {
+                    sh 'npm ci'
+                }
             }
         }
 
-        stage('Lint and Compile') {
+        stage('Build and Lint') {
             steps {
-                sh 'npm run lint'
-                sh 'npm run build'
+                ansiColor('xterm') {
+                    sh 'npm run lint'
+                    sh 'npm run build'
+                }
             }
         }
 
-    stage('Run Tests') {
-    steps {
-        ansiColor('xterm') {
-            sh 'npm run test'
+        stage('Run Tests') {
+            steps {
+                ansiColor('xterm') {
+                    sh '''
+                        export SEP_USERNAME=${SEP_CREDS_USR}
+                        export SEP_PASSWORD=${SEP_CREDS_PSW}
+                        export SEP_URL=${SEP_URL}
+                        npm run test
+                    '''
+                }
+            }
         }
-    }
-}
-
 
         stage('Generate HTML Report') {
             steps {
-                sh 'npm run generate-report' // Ensure this generates reports/html/index.html
+                ansiColor('xterm') {
+                    sh 'npm run generate-report' // You need to define this in your package.json
+                }
             }
         }
     }
@@ -68,8 +80,8 @@ pipeline {
 
         failure {
             mail to: 'riaz11@hotmail.com',
-                 subject: "Jenkins Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                 body: "Check the Jenkins job at ${env.BUILD_URL}"
+                 subject: "❌ Jenkins Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                 body: "Check the Jenkins job: ${env.BUILD_URL}"
         }
     }
 }
