@@ -2,17 +2,17 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'NodeJS_20' // Make sure this matches your configured tool name
+        nodejs 'NodeJS_20' // Make sure this matches the Node.js tool name in Jenkins config
     }
 
     environment {
         NODE_ENV = 'test'
-        SEP_CREDS = credentials('sep-username')  // Jenkins ID for Username+Password credential
-        SEP_URL = credentials('sep-url')         // Jenkins ID for a Secret Text credential
+        SEP_CREDS = credentials('sep-username')  // Jenkins Credentials ID for username/password
+        SEP_URL = credentials('sep-url')         // Jenkins Credentials ID for secret text
     }
 
     triggers {
-        pollSCM('H 5 * * *') // Polls the SCM every day at 5 minutes past the hour
+        pollSCM('H 5 * * *') // Polls the repo daily at 5 minutes past the hour
     }
 
     options {
@@ -29,39 +29,31 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                ansiColor('xterm') {
-                    sh 'npm ci'
-                }
+                sh 'npm ci'
             }
         }
 
         stage('Build and Lint') {
             steps {
-                ansiColor('xterm') {
-                    sh 'npm run lint'
-                    sh 'npm run build'
-                }
+                sh 'npm run lint'
+                sh 'npm run build'
             }
         }
 
         stage('Run Tests') {
             steps {
-                ansiColor('xterm') {
-                    sh '''
-                        export SEP_USERNAME=${SEP_CREDS_USR}
-                        export SEP_PASSWORD=${SEP_CREDS_PSW}
-                        export SEP_URL=${SEP_URL}
-                        npm run test
-                    '''
-                }
+                sh '''
+                    export SEP_USERNAME=${SEP_CREDS_USR}
+                    export SEP_PASSWORD=${SEP_CREDS_PSW}
+                    export SEP_URL=${SEP_URL}
+                    npm run test
+                '''
             }
         }
 
         stage('Generate HTML Report') {
             steps {
-                ansiColor('xterm') {
-                    sh 'npm run generate-report' // You need to define this in your package.json
-                }
+                sh 'npm run generate-report' // This script must be defined in package.json
             }
         }
     }
