@@ -7,9 +7,8 @@ pipeline {
 
     environment {
         NODE_ENV = 'test'
-        SEP_CREDS = credentials('sep-username')
-        SEP_URL = credentials('sep-url')
-        GIT_CRED_ID = credentials('riazahmed-github-creds') // Jenkins credentials ID with GitHub push access
+        SEP_CREDS = credentials('sep-username')       // Username/password pair
+        SEP_URL = credentials('sep-url')              // Secret text
     }
 
     triggers {
@@ -26,7 +25,7 @@ pipeline {
                 cleanWs()
                 git branch: 'Develop',
                     url: 'https://github.com/Riaz11-coder/Cucumber_Playwright_TypeScript_Automation.git',
-                    credentialsId: "${env.GIT_CRED_ID}"
+                    credentialsId: 'riazahmed-github-creds'
             }
         }
 
@@ -37,19 +36,18 @@ pipeline {
         }
 
         stage('Run Tests') {
-    steps {
-        configFileProvider([configFile(fileId: 'stripe-vars.json', variable: 'STRIPE_JSON_PATH')]) {
-            sh '''
-                export SEP_USERNAME=${SEP_CREDS_USR}
-                export SEP_PASSWORD=${SEP_CREDS_PSW}
-                export SEP_URL=${SEP_URL}
-                export STRIPE_CREDENTIALS=$STRIPE_JSON_PATH
-                npm test
-            '''
+            steps {
+                configFileProvider([configFile(fileId: 'stripe-vars.json', variable: 'STRIPE_JSON_PATH')]) {
+                    sh '''
+                        export SEP_USERNAME=${SEP_CREDS_USR}
+                        export SEP_PASSWORD=${SEP_CREDS_PSW}
+                        export SEP_URL=${SEP_URL}
+                        export STRIPE_CREDENTIALS=$STRIPE_JSON_PATH
+                        npm test
+                    '''
+                }
+            }
         }
-    }
-}
-
 
         stage('Generate HTML Report') {
             steps {
@@ -62,19 +60,18 @@ pipeline {
                 expression { currentBuild.currentResult == 'SUCCESS' }
             }
             steps {
-                script {
-                    def version = "v1.0.${env.BUILD_NUMBER}"
-
-                    sh """
+                sshagent(credentials: ['riazahmed-github-ssh']) {
+                    sh '''
                         git config --global user.email "riaz11@hotmail.com"
                         git config --global user.name "Jenkins CI"
 
                         git checkout -B staging
-                        git push https://${env.GIT_CRED_ID}@github.com/Riaz11-coder/Cucumber_Playwright_TypeScript_Automation.git staging --force
+                        git push origin staging --force
 
-                        git tag ${version}
-                        git push https://${env.GIT_CRED_ID}@github.com/Riaz11-coder/Cucumber_Playwright_TypeScript_Automation.git ${version}
-                    """
+                        VERSION_TAG=v1.0.${BUILD_NUMBER}
+                        git tag $VERSION_TAG
+                        git push origin $VERSION_TAG
+                    '''
                 }
             }
         }

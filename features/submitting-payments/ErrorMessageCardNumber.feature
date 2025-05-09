@@ -16,7 +16,7 @@ Feature: Error message for the invalid card number
     Scenario: User receives error message for incomplete card number
         When user enters an incomplete card number
         And user clicks outside the card number field
-        Then user should see the credit card field error message "Your card number is invalid."
+        Then user should see the credit card field error message "Your card number is incomplete."
 
     Scenario: User receives error message for invalid card number
         When user enters an invalid card number
