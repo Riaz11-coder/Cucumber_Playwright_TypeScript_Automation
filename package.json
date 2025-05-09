@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "npx cucumber-js --tags 'not @known-failure'",
+    "test": "npx cucumber-js --tags 'not @known-failure' --format json:reports/cucumber_report.json",
+    "generate-report": "node report-generator.js",
     "test:tag": "npx cucumber-js --tags @sep08",
     "test:smoke": "npx cucumber-js --tags @smoke",
     "test:api": "cross-env TEST_TYPE=api npx cucumber-js --tags @api",
@@ -26,7 +27,7 @@
     "typescript": "^5.8.2"
   },
   "devDependencies": {
-    "@types/node": "^22.14.0"
+    "@types/node": "^22.14.0",
+    "cucumber-html-reporter": "^7.2.0"
   }
-  
 }
