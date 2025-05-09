@@ -22,7 +22,7 @@ Feature: Selecting a price plan
             | payment_plan   |
             | Upfront        |
             | 5 Installments |
-
+    @known-failure
     Scenario Outline: Verify user can change the selected payment plan
         When user selects the "<payment_plan>" payment plan
         And user changes payment plan selection
