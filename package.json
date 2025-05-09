@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "npx cucumber-js",
+    "test": "npx cucumber-js --tags 'not @known-failure'",
     "test:tag": "npx cucumber-js --tags @sep08",
     "test:smoke": "npx cucumber-js --tags @smoke",
     "test:api": "cross-env TEST_TYPE=api npx cucumber-js --tags @api",

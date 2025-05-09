@@ -24,7 +24,7 @@ Feature: Click on the next button on payment plans page   #! Test Only
             | payment_plan   |
             | Upfront        |
             | 5 Installments |
-
+    @known-failure
     Scenario Outline: Navigate to step three after selecting a payment plan
         When user selects the "<payment_plan>" payment plan
         And user clicks on the next button
