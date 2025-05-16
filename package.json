@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
-    "cucumber-html-reporter": "^7.2.0"
+    "cucumber-html-reporter": "^7.2.0",
+    "multiple-cucumber-html-reporter": "^3.9.2"
   }
 }

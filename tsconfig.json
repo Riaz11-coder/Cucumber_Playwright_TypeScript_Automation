@@ -17,7 +17,12 @@
     "strict": true,
 
     // Skips type-checking of declaration files (.d.ts), speeding up compilation
-    "skipLibCheck": true
+    "skipLibCheck": true,
+
+    "typeRoots": ["./types", "./node_modules/@types"]
     
-  }
+  },
+  "include": ["**/*.ts"]
+  
+  
 }
