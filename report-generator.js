@@ -1,7 +1,7 @@
 import { generate } from 'multiple-cucumber-html-reporter';
 
 generate({
-  jsonDir: 'reports/json',
+  jsonDir: 'reports',
   reportPath: 'reports/html',
   metadata:{
     browser: {
