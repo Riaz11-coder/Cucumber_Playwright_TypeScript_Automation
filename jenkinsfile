@@ -7,12 +7,12 @@ pipeline {
 
     environment {
         NODE_ENV = 'test'
-        SEP_CREDS = credentials('sep-username')       // Username/password pair
-        SEP_URL = credentials('sep-url')              // Secret text
+        SEP_CREDS = credentials('sep-username')
+        SEP_URL = credentials('sep-url')
     }
 
     triggers {
-        pollSCM('H 5 * * *')
+        cron('H 7,19 * * *') // Runs twice daily: 7 AM (smoke), 7 PM (regression)
     }
 
     options {
@@ -35,7 +35,10 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
+        stage('Run Smoke Tests') {
+            when {
+                expression { new Date().format('HH', TimeZone.getTimeZone('UTC')) == '07' }
+            }
             steps {
                 configFileProvider([configFile(fileId: 'stripe-vars.json', variable: 'STRIPE_JSON_PATH')]) {
                     sh '''
@@ -43,7 +46,24 @@ pipeline {
                         export SEP_PASSWORD=${SEP_CREDS_PSW}
                         export SEP_URL=${SEP_URL}
                         export STRIPE_CREDENTIALS=$STRIPE_JSON_PATH
-                        npm test
+                        npx cucumber-js --tags "@smoke" --format json:reports/json/cucumber_report.json
+                    '''
+                }
+            }
+        }
+
+        stage('Run Regression Tests') {
+            when {
+                expression { new Date().format('HH', TimeZone.getTimeZone('UTC')) == '19' }
+            }
+            steps {
+                configFileProvider([configFile(fileId: 'stripe-vars.json', variable: 'STRIPE_JSON_PATH')]) {
+                    sh '''
+                        export SEP_USERNAME=${SEP_CREDS_USR}
+                        export SEP_PASSWORD=${SEP_CREDS_PSW}
+                        export SEP_URL=${SEP_URL}
+                        export STRIPE_CREDENTIALS=$STRIPE_JSON_PATH
+                        npx cucumber-js --tags "@regression" --format json:reports/json/cucumber_report.json
                     '''
                 }
             }
@@ -57,7 +77,10 @@ pipeline {
 
         stage('Deploy to Staging') {
             when {
-                expression { currentBuild.currentResult == 'SUCCESS' }
+                allOf {
+                    expression { currentBuild.currentResult == 'SUCCESS' }
+                    expression { new Date().format('HH', TimeZone.getTimeZone('UTC')) == '19' } // Deploy only after regression
+                }
             }
             steps {
                 sshagent(credentials: ['riazahmed-github-ssh']) {

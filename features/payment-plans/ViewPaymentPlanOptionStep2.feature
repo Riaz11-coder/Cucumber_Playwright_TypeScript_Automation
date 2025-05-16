@@ -1,4 +1,4 @@
-@sep17
+@sep17 @regression
 Feature: View payment plan options in Step 2   #! test only
 
     As a customer, I should be able to see payment plan options in Step 2.

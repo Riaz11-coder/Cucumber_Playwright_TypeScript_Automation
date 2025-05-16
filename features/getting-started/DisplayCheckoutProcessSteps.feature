@@ -1,4 +1,4 @@
-@sep08
+@sep08 @smoke
 Feature: Display the steps of the checkout process
 
     As a customer, I should be able to know where I am in the checkout process using the stepper.
