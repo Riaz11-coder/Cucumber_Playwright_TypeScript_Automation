@@ -1,101 +1,85 @@
 [
   {
-    "description": "    As a customer, I should be able to know where I am in the checkout process using the stepper.",
+    "description": "    As a customer, I should be able to click on the next button on step 2 when I select a plan.",
     "elements": [
       {
         "description": "",
-        "id": "display-the-steps-of-the-checkout-process;verify-the-checkout-process-steps-are-displayed-correctly",
-        "keyword": "Scenario",
-        "line": 13,
-        "name": "Verify the checkout process steps are displayed correctly",
+        "id": "click-on-the-next-button-on-payment-plans-page---#!-test-only;verify-next-button-is-enabled-after-selecting-a-payment-plan",
+        "keyword": "Scenario Outline",
+        "line": 25,
+        "name": "Verify next button is enabled after selecting a payment plan",
         "steps": [
           {
             "keyword": "Before",
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 1902513812
+              "duration": 6293479667
             }
           },
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 11,
+            "line": 15,
             "name": "user is on the enrollment page",
             "match": {
               "location": "steps/getting-started/startAndRefundDates.ts:6"
             },
             "result": {
               "status": "passed",
-              "duration": 1597064439
-            }
-          },
-          {
-            "arguments": [
-              {
-                "rows": [
-                  {
-                    "cells": [
-                      "Step Number",
-                      "Step Name"
-                    ]
-                  },
-                  {
-                    "cells": [
-                      "1",
-                      "Start Application"
-                    ]
-                  },
-                  {
-                    "cells": [
-                      "2",
-                      "Payment plan"
-                    ]
-                  },
-                  {
-                    "cells": [
-                      "3",
-                      "Review"
-                    ]
-                  }
-                ]
-              }
-            ],
-            "keyword": "Then ",
-            "line": 14,
-            "name": "the system should display the steps of the checkout process as:",
-            "match": {
-              "location": "steps/getting-started/displayCheckoutProcessSteps.ts:6"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 34570730
+              "duration": 3563004613
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
-            "line": 19,
-            "name": "the system should highlight \"Start Application\" in blue",
+            "line": 16,
+            "name": "user has completed step one with valid information",
             "match": {
-              "location": "steps/getting-started/displayCheckoutProcessSteps.ts:12"
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:7"
             },
             "result": {
               "status": "passed",
-              "duration": 19060605
+              "duration": 1049239693
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
+            "line": 17,
+            "name": "user is on step two of the enrollment process",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:11"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 417395947
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
             "line": 20,
-            "name": "the system should display \"Payment Plan\" and \"Review\" in grey",
+            "name": "user selects the \"Upfront\" payment plan",
             "match": {
-              "location": "steps/getting-started/displayCheckoutProcessSteps.ts:17"
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:18"
             },
             "result": {
               "status": "passed",
-              "duration": 11163001
+              "duration": 622255820
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 21,
+            "name": "the next button should be enabled",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:36"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 39012920
             }
           },
           {
@@ -103,29 +87,706 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 320189479
+              "duration": 2357828822
             }
           }
         ],
         "tags": [
           {
-            "name": "@sep08",
+            "name": "@sep16",
+            "line": 1
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "click-on-the-next-button-on-payment-plans-page---#!-test-only;verify-next-button-is-enabled-after-selecting-a-payment-plan",
+        "keyword": "Scenario Outline",
+        "line": 26,
+        "name": "Verify next button is enabled after selecting a payment plan",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 4219183669
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 15,
+            "name": "user is on the enrollment page",
+            "match": {
+              "location": "steps/getting-started/startAndRefundDates.ts:6"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2902700762
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "user has completed step one with valid information",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:7"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 704019429
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 17,
+            "name": "user is on step two of the enrollment process",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:11"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 807221768
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 20,
+            "name": "user selects the \"5 Installments\" payment plan",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:18"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 528949612
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 21,
+            "name": "the next button should be enabled",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:36"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 33358972
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 3252594722
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@sep16",
+            "line": 1
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "click-on-the-next-button-on-payment-plans-page---#!-test-only;navigate-to-step-three-after-selecting-a-payment-plan",
+        "keyword": "Scenario Outline",
+        "line": 39,
+        "name": "Navigate to step three after selecting a payment plan",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 2450833625
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 15,
+            "name": "user is on the enrollment page",
+            "match": {
+              "location": "steps/getting-started/startAndRefundDates.ts:6"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3475596015
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "user has completed step one with valid information",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:7"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 738888918
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 17,
+            "name": "user is on step two of the enrollment process",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:11"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1365867386
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 29,
+            "name": "user selects the \"Upfront\" payment plan",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:18"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 161054470
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 30,
+            "name": "user clicks on the next button",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:32"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 637899389
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 31,
+            "name": "the Step 3 page should be displayed",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:40"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 68101623
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 32,
+            "name": "the payment component should be displayed",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:44"
+            },
+            "result": {
+              "status": "failed",
+              "duration": 5625474060,
+              "error_message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: locator('//form[@id=\\'payment-form\\']')\nExpected: visible\nReceived: hidden\nCall log:\n\u001b[2m  - locator._expect with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('//form[@id=\\'payment-form\\']')\u001b[22m\n\u001b[2m    7 × locator resolved to <form novalidate=\"\" id=\"payment-form\" _ngcontent-ng-c1610874379=\"\" ng-reflect-form=\"[object Object]\" class=\"ng-untouched ng-pristine ng-invalid\">…</form>\u001b[22m\n\u001b[2m      - unexpected value \"hidden\"\u001b[22m\n\n    at Proxy.<anonymous> (/Users/riazahmed/Desktop/VS Code Projects/sep-automation-ts-1/node_modules/playwright/lib/matchers/expect.js:221:24)\n    at CustomWorld.<anonymous> (/Users/riazahmed/Desktop/VS Code Projects/sep-automation-ts-1/steps/payment-plans/clickNextButtonStep2.ts:45:49)"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 33,
+            "name": "a price summary should be displayed",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:48"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 34,
+            "name": "the back button should be displayed",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:55"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 35,
+            "name": "the pay button should be displayed by default",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:59"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 2376668183
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@sep16",
+            "line": 1
+          },
+          {
+            "name": "@known-failure",
+            "line": 27
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "click-on-the-next-button-on-payment-plans-page---#!-test-only;navigate-to-step-three-after-selecting-a-payment-plan",
+        "keyword": "Scenario Outline",
+        "line": 40,
+        "name": "Navigate to step three after selecting a payment plan",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 4151300147
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 15,
+            "name": "user is on the enrollment page",
+            "match": {
+              "location": "steps/getting-started/startAndRefundDates.ts:6"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3067760374
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "user has completed step one with valid information",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:7"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 672392608
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 17,
+            "name": "user is on step two of the enrollment process",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:11"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 735663828
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 29,
+            "name": "user selects the \"5 Installments\" payment plan",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:18"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 303688790
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 30,
+            "name": "user clicks on the next button",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:32"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 518734207
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 31,
+            "name": "the Step 3 page should be displayed",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:40"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 27830096
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 32,
+            "name": "the payment component should be displayed",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:44"
+            },
+            "result": {
+              "status": "failed",
+              "duration": 5984919896,
+              "error_message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: locator('//form[@id=\\'payment-form\\']')\nExpected: visible\nReceived: hidden\nCall log:\n\u001b[2m  - locator._expect with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('//form[@id=\\'payment-form\\']')\u001b[22m\n\u001b[2m    6 × locator resolved to <form novalidate=\"\" id=\"payment-form\" _ngcontent-ng-c1610874379=\"\" ng-reflect-form=\"[object Object]\" class=\"ng-untouched ng-pristine ng-invalid\">…</form>\u001b[22m\n\u001b[2m      - unexpected value \"hidden\"\u001b[22m\n\n    at Proxy.<anonymous> (/Users/riazahmed/Desktop/VS Code Projects/sep-automation-ts-1/node_modules/playwright/lib/matchers/expect.js:221:24)\n    at CustomWorld.<anonymous> (/Users/riazahmed/Desktop/VS Code Projects/sep-automation-ts-1/steps/payment-plans/clickNextButtonStep2.ts:45:49)"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 33,
+            "name": "a price summary should be displayed",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:48"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 34,
+            "name": "the back button should be displayed",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:55"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 35,
+            "name": "the pay button should be displayed by default",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:59"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 1773543527
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@sep16",
+            "line": 1
+          },
+          {
+            "name": "@known-failure",
+            "line": 27
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "click-on-the-next-button-on-payment-plans-page---#!-test-only;verify-stepper-color-changes-after-selecting-a-payment-plan",
+        "keyword": "Scenario Outline",
+        "line": 50,
+        "name": "Verify stepper color changes after selecting a payment plan",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 3382285772
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 15,
+            "name": "user is on the enrollment page",
+            "match": {
+              "location": "steps/getting-started/startAndRefundDates.ts:6"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2972241792
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "user has completed step one with valid information",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:7"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 482705259
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 17,
+            "name": "user is on step two of the enrollment process",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:11"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1171119086
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 43,
+            "name": "user selects the \"Upfront\" payment plan",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:18"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 161377956
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 44,
+            "name": "user clicks on the next button",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:32"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 624129515
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 45,
+            "name": "the stepper should show steps 1 and 2 as green",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:63"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 142825705
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 46,
+            "name": "step 3 should be blue",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:76"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2840642794
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 2147745596
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@sep16",
+            "line": 1
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "click-on-the-next-button-on-payment-plans-page---#!-test-only;verify-stepper-color-changes-after-selecting-a-payment-plan",
+        "keyword": "Scenario Outline",
+        "line": 51,
+        "name": "Verify stepper color changes after selecting a payment plan",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 3663876765
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 15,
+            "name": "user is on the enrollment page",
+            "match": {
+              "location": "steps/getting-started/startAndRefundDates.ts:6"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2308602788
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "user has completed step one with valid information",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:7"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 591941265
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 17,
+            "name": "user is on step two of the enrollment process",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:11"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1407972455
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 43,
+            "name": "user selects the \"5 Installments\" payment plan",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:18"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 115885035
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 44,
+            "name": "user clicks on the next button",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:32"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 499259741
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 45,
+            "name": "the stepper should show steps 1 and 2 as green",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:63"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 149647625
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 46,
+            "name": "step 3 should be blue",
+            "match": {
+              "location": "steps/payment-plans/clickNextButtonStep2.ts:76"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3881737546
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 2251422540
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@sep16",
             "line": 1
           }
         ],
         "type": "scenario"
       }
     ],
-    "id": "display-the-steps-of-the-checkout-process",
+    "id": "click-on-the-next-button-on-payment-plans-page---#!-test-only",
     "line": 2,
     "keyword": "Feature",
-    "name": "Display the steps of the checkout process",
+    "name": "Click on the next button on payment plans page   #! Test Only",
     "tags": [
       {
-        "name": "@sep08",
+        "name": "@sep16",
         "line": 1
       }
     ],
-    "uri": "features/getting-started/DisplayCheckoutProcessSteps.feature"
+    "uri": "features/payment-plans/ClickNextButtonStep2.feature"
   }
 ]

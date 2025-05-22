@@ -7,6 +7,8 @@ import dotenv from 'dotenv';
 import { ApiClient } from '../utilities/apiClient';
 import { apiConfig } from '../configs/apiConfig';
 import type { Booking } from '../models/booking';
+import fsExtra from 'fs-extra';
+
 
 dotenv.config();
 
@@ -33,6 +35,18 @@ Before(async function (this: CustomWorld) {
 After(async function (this: CustomWorld, scenario) {
   if (scenario.result?.status === Status.FAILED) {
     await takeScreenshot(this.page, scenario.pickle.name);
+
+    const tracesDir = path.join(process.cwd(), "reports", "traces"); // 🔴 NEW
+    fs.mkdirSync(tracesDir, { recursive: true });                    // 🔴 NEW
+    const currentDateTime: string = new Date().toISOString().replace(/[:T.]/g, "_").slice(0, -5); // 🔴 NEW
+    const traceFileName = `trace-${scenario.pickle.name.replace(/\s+/g, "_")}_${currentDateTime}.zip`; // 🔴 NEW
+    const tracePath = path.join(tracesDir, traceFileName); // 🔴 NEW
+ 
+    await this.context?.tracing.stop({ path: tracePath });           // 🔴 NEW
+  } else {
+    await this.context?.tracing.stop();                               // 🔴 NEW
+
+    
   }
   await this.close();
 });
@@ -104,6 +118,17 @@ export class CustomWorld {
     if (process.env.TEST_TYPE !== 'api') {
       this.browser = await this.initializeBrowser();
       this.context = await this.browser.newContext(MAXIMIZED_WINDOW ? { viewport: null } : {});
+
+
+      // 🔴 Clean up old trace files before starting tracing
+    const tracesDir = path.join(process.cwd(), "reports", "traces");
+    if (fs.existsSync(tracesDir)) {
+      fsExtra.emptyDirSync(tracesDir); // Deletes all contents, but keeps the directory
+    }
+
+    // 🔴 Start tracing
+    await this.context.tracing.start({ screenshots: true, snapshots: true });
+
       this.page = await this.context.newPage();
 
       if (MAXIMIZED_WINDOW) {
