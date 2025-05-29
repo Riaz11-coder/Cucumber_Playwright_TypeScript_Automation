@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    parameters {
+    string(name: 'RUN_TYPE', defaultValue: 'scheduled', description: 'Type of run: scheduled | webhook')
+}
+
+
     tools {
         nodejs 'NodeJS_20'
     }
@@ -72,8 +77,7 @@ pipeline {
         stage('Run On Webhook') {
     when {
         expression {
-            // Check if NOT triggered by TimerTrigger (cron job)
-            !currentBuild.rawBuild.getCause(hudson.triggers.TimerTrigger.TimerTriggerCause)
+            params.RUN_TYPE == 'webhook'
         }
     }
     steps {
