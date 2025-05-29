@@ -82,7 +82,7 @@ pipeline {
                         export SEP_PASSWORD=${SEP_CREDS_PSW}
                         export SEP_URL=${SEP_URL}
                         export STRIPE_CREDENTIALS=$STRIPE_JSON_PATH
-                        npx cucumber-js --tags "@webhook" --format json:reports/json/cucumber_report.json
+                        npx cucumber-js --format json:reports/json/cucumber_report.json
                     '''
                 }
             }
