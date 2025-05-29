@@ -1,5 +1,5 @@
 @sep16
-Feature: Click on the next button on payment plans page   #! Test Only!
+Feature: Click on the next button on payment plans page   #! Test Only
 
     As a customer, I should be able to click on the next button on step 2 when I select a plan.
 
