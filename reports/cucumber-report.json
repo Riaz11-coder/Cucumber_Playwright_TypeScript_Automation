@@ -14,7 +14,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 6293479667
+              "duration": 2150553388
             }
           },
           {
@@ -27,7 +27,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 3563004613
+              "duration": 2980662054
             }
           },
           {
@@ -40,7 +40,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 1049239693
+              "duration": 502057087
             }
           },
           {
@@ -53,7 +53,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 417395947
+              "duration": 603380327
             }
           },
           {
@@ -66,7 +66,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 622255820
+              "duration": 115809406
             }
           },
           {
@@ -79,7 +79,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 39012920
+              "duration": 13543051
             }
           },
           {
@@ -87,7 +87,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 2357828822
+              "duration": 982980192
             }
           }
         ],
@@ -111,7 +111,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 4219183669
+              "duration": 2443784484
             }
           },
           {
@@ -124,7 +124,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 2902700762
+              "duration": 2069468301
             }
           },
           {
@@ -137,7 +137,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 704019429
+              "duration": 765123730
             }
           },
           {
@@ -150,7 +150,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 807221768
+              "duration": 441955884
             }
           },
           {
@@ -163,7 +163,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 528949612
+              "duration": 211776597
             }
           },
           {
@@ -176,7 +176,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 33358972
+              "duration": 29971207
             }
           },
           {
@@ -184,7 +184,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 3252594722
+              "duration": 747928636
             }
           }
         ],
@@ -208,7 +208,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 2450833625
+              "duration": 1951314596
             }
           },
           {
@@ -221,7 +221,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 3475596015
+              "duration": 3098161822
             }
           },
           {
@@ -234,7 +234,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 738888918
+              "duration": 586397597
             }
           },
           {
@@ -247,7 +247,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 1365867386
+              "duration": 580828180
             }
           },
           {
@@ -260,7 +260,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 161054470
+              "duration": 718650508
             }
           },
           {
@@ -273,7 +273,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 637899389
+              "duration": 116129715
             }
           },
           {
@@ -286,7 +286,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 68101623
+              "duration": 12778303
             }
           },
           {
@@ -299,8 +299,8 @@
             },
             "result": {
               "status": "failed",
-              "duration": 5625474060,
-              "error_message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: locator('//form[@id=\\'payment-form\\']')\nExpected: visible\nReceived: hidden\nCall log:\n\u001b[2m  - locator._expect with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('//form[@id=\\'payment-form\\']')\u001b[22m\n\u001b[2m    7 × locator resolved to <form novalidate=\"\" id=\"payment-form\" _ngcontent-ng-c1610874379=\"\" ng-reflect-form=\"[object Object]\" class=\"ng-untouched ng-pristine ng-invalid\">…</form>\u001b[22m\n\u001b[2m      - unexpected value \"hidden\"\u001b[22m\n\n    at Proxy.<anonymous> (/Users/riazahmed/Desktop/VS Code Projects/sep-automation-ts-1/node_modules/playwright/lib/matchers/expect.js:221:24)\n    at CustomWorld.<anonymous> (/Users/riazahmed/Desktop/VS Code Projects/sep-automation-ts-1/steps/payment-plans/clickNextButtonStep2.ts:45:49)"
+              "duration": 5417726550,
+              "error_message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: locator('//form[@id=\\'payment-form\\']')\nExpected: visible\nReceived: hidden\nCall log:\n\u001b[2m  - locator._expect with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('//form[@id=\\'payment-form\\']')\u001b[22m\n\u001b[2m    8 × locator resolved to <form novalidate=\"\" id=\"payment-form\" _ngcontent-ng-c1610874379=\"\" ng-reflect-form=\"[object Object]\" class=\"ng-untouched ng-pristine ng-invalid\">…</form>\u001b[22m\n\u001b[2m      - unexpected value \"hidden\"\u001b[22m\n\n    at Proxy.<anonymous> (/Users/riazahmed/Desktop/VS Code Projects/sep-automation-ts-1/node_modules/playwright/lib/matchers/expect.js:221:24)\n    at CustomWorld.<anonymous> (/Users/riazahmed/Desktop/VS Code Projects/sep-automation-ts-1/steps/payment-plans/clickNextButtonStep2.ts:45:49)"
             }
           },
           {
@@ -347,7 +347,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 2376668183
+              "duration": 1575115095
             }
           }
         ],
@@ -355,10 +355,6 @@
           {
             "name": "@sep16",
             "line": 1
-          },
-          {
-            "name": "@known-failure",
-            "line": 27
           }
         ],
         "type": "scenario"
@@ -375,7 +371,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 4151300147
+              "duration": 2219510683
             }
           },
           {
@@ -388,7 +384,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 3067760374
+              "duration": 2719609959
             }
           },
           {
@@ -401,7 +397,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 672392608
+              "duration": 587288853
             }
           },
           {
@@ -414,7 +410,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 735663828
+              "duration": 525148428
             }
           },
           {
@@ -427,7 +423,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 303688790
+              "duration": 75172365
             }
           },
           {
@@ -440,7 +436,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 518734207
+              "duration": 357327160
             }
           },
           {
@@ -453,7 +449,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 27830096
+              "duration": 46233216
             }
           },
           {
@@ -465,9 +461,8 @@
               "location": "steps/payment-plans/clickNextButtonStep2.ts:44"
             },
             "result": {
-              "status": "failed",
-              "duration": 5984919896,
-              "error_message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: locator('//form[@id=\\'payment-form\\']')\nExpected: visible\nReceived: hidden\nCall log:\n\u001b[2m  - locator._expect with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('//form[@id=\\'payment-form\\']')\u001b[22m\n\u001b[2m    6 × locator resolved to <form novalidate=\"\" id=\"payment-form\" _ngcontent-ng-c1610874379=\"\" ng-reflect-form=\"[object Object]\" class=\"ng-untouched ng-pristine ng-invalid\">…</form>\u001b[22m\n\u001b[2m      - unexpected value \"hidden\"\u001b[22m\n\n    at Proxy.<anonymous> (/Users/riazahmed/Desktop/VS Code Projects/sep-automation-ts-1/node_modules/playwright/lib/matchers/expect.js:221:24)\n    at CustomWorld.<anonymous> (/Users/riazahmed/Desktop/VS Code Projects/sep-automation-ts-1/steps/payment-plans/clickNextButtonStep2.ts:45:49)"
+              "status": "passed",
+              "duration": 4990491129
             }
           },
           {
@@ -479,8 +474,8 @@
               "location": "steps/payment-plans/clickNextButtonStep2.ts:48"
             },
             "result": {
-              "status": "skipped",
-              "duration": 0
+              "status": "passed",
+              "duration": 1216806171
             }
           },
           {
@@ -492,8 +487,8 @@
               "location": "steps/payment-plans/clickNextButtonStep2.ts:55"
             },
             "result": {
-              "status": "skipped",
-              "duration": 0
+              "status": "passed",
+              "duration": 62908426
             }
           },
           {
@@ -505,8 +500,8 @@
               "location": "steps/payment-plans/clickNextButtonStep2.ts:59"
             },
             "result": {
-              "status": "skipped",
-              "duration": 0
+              "status": "passed",
+              "duration": 42738122
             }
           },
           {
@@ -514,7 +509,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 1773543527
+              "duration": 700838096
             }
           }
         ],
@@ -522,10 +517,6 @@
           {
             "name": "@sep16",
             "line": 1
-          },
-          {
-            "name": "@known-failure",
-            "line": 27
           }
         ],
         "type": "scenario"
@@ -542,7 +533,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 3382285772
+              "duration": 6478050285
             }
           },
           {
@@ -555,7 +546,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 2972241792
+              "duration": 2425695266
             }
           },
           {
@@ -568,7 +559,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 482705259
+              "duration": 213326116
             }
           },
           {
@@ -581,7 +572,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 1171119086
+              "duration": 401169485
             }
           },
           {
@@ -594,7 +585,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 161377956
+              "duration": 117336406
             }
           },
           {
@@ -607,7 +598,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 624129515
+              "duration": 301453203
             }
           },
           {
@@ -620,7 +611,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 142825705
+              "duration": 34700262
             }
           },
           {
@@ -633,7 +624,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 2840642794
+              "duration": 74215946
             }
           },
           {
@@ -641,7 +632,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 2147745596
+              "duration": 605458662
             }
           }
         ],
@@ -665,7 +656,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 3663876765
+              "duration": 6031572861
             }
           },
           {
@@ -678,7 +669,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 2308602788
+              "duration": 2535691102
             }
           },
           {
@@ -691,7 +682,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 591941265
+              "duration": 312004138
             }
           },
           {
@@ -704,7 +695,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 1407972455
+              "duration": 464677239
             }
           },
           {
@@ -717,7 +708,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 115885035
+              "duration": 181818441
             }
           },
           {
@@ -730,7 +721,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 499259741
+              "duration": 291198676
             }
           },
           {
@@ -743,7 +734,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 149647625
+              "duration": 33519754
             }
           },
           {
@@ -756,7 +747,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 3881737546
+              "duration": 42654789
             }
           },
           {
@@ -764,7 +755,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 2251422540
+              "duration": 392045196
             }
           }
         ],

@@ -69,6 +69,27 @@ pipeline {
             }
         }
 
+        stage('Run On Webhook') {
+    when {
+        expression {
+            // Check if NOT triggered by TimerTrigger (cron job)
+            !currentBuild.rawBuild.getCause(hudson.triggers.TimerTrigger.TimerTriggerCause)
+        }
+    }
+    steps {
+        configFileProvider([configFile(fileId: 'stripe-vars.json', variable: 'STRIPE_JSON_PATH')]) {
+            sh '''
+                export SEP_USERNAME=${SEP_CREDS_USR}
+                export SEP_PASSWORD=${SEP_CREDS_PSW}
+                export SEP_URL=${SEP_URL}
+                export STRIPE_CREDENTIALS=$STRIPE_JSON_PATH
+                npx cucumber-js --tags "@webhook" --format json:reports/json/cucumber_report.json
+            '''
+        }
+    }
+}
+
+
         stage('Generate HTML Report') {
             steps {
                 sh 'npm run generate-report'
