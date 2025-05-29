@@ -2,8 +2,9 @@ pipeline {
     agent any
 
     parameters {
-    string(name: 'RUN_TYPE', defaultValue: 'scheduled', description: 'Type of run: scheduled | webhook')
+    string(name: 'RUN_TYPE', defaultValue: 'scheduled', description: 'Set to webhook to trigger Run On Webhook stage')
 }
+
 
 
     tools {
