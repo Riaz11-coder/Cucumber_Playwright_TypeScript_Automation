@@ -2,10 +2,8 @@ pipeline {
     agent any
 
     parameters {
-    string(name: 'RUN_TYPE', defaultValue: 'scheduled', description: 'Set to webhook to trigger Run On Webhook stage')
-}
-
-
+        string(name: 'RUN_TYPE', defaultValue: 'scheduled', description: 'Set to "webhook" to trigger webhook-specific tests')
+    }
 
     tools {
         nodejs 'NodeJS_20'
@@ -18,7 +16,7 @@ pipeline {
     }
 
     triggers {
-        cron('H 7,19 * * *') // Runs twice daily: 7 AM (smoke), 7 PM (regression)
+        cron('H 7,19 * * *') // Runs twice daily at 7 AM (smoke) and 7 PM (regression)
     }
 
     options {
@@ -76,24 +74,21 @@ pipeline {
         }
 
         stage('Run On Webhook') {
-    when {
-        expression {
-            params.RUN_TYPE == 'webhook'
+            when {
+                expression { params.RUN_TYPE == 'webhook' }
+            }
+            steps {
+                configFileProvider([configFile(fileId: 'stripe-vars.json', variable: 'STRIPE_JSON_PATH')]) {
+                    sh '''
+                        export SEP_USERNAME=${SEP_CREDS_USR}
+                        export SEP_PASSWORD=${SEP_CREDS_PSW}
+                        export SEP_URL=${SEP_URL}
+                        export STRIPE_CREDENTIALS=$STRIPE_JSON_PATH
+                        npx cucumber-js --tags "@webhook" --format json:reports/json/cucumber_report.json
+                    '''
+                }
+            }
         }
-    }
-    steps {
-        configFileProvider([configFile(fileId: 'stripe-vars.json', variable: 'STRIPE_JSON_PATH')]) {
-            sh '''
-                export SEP_USERNAME=${SEP_CREDS_USR}
-                export SEP_PASSWORD=${SEP_CREDS_PSW}
-                export SEP_URL=${SEP_URL}
-                export STRIPE_CREDENTIALS=$STRIPE_JSON_PATH
-                npx cucumber-js --tags "@webhook" --format json:reports/json/cucumber_report.json
-            '''
-        }
-    }
-}
-
 
         stage('Generate HTML Report') {
             steps {
