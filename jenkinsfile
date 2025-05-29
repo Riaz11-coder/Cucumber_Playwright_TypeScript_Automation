@@ -40,14 +40,16 @@ pipeline {
                 expression { new Date().format('HH', TimeZone.getTimeZone('UTC')) == '07' }
             }
             steps {
-                configFileProvider([configFile(fileId: 'stripe-vars.json', variable: 'STRIPE_JSON_PATH')]) {
-                    sh '''
-                        export SEP_USERNAME=${SEP_CREDS_USR}
-                        export SEP_PASSWORD=${SEP_CREDS_PSW}
-                        export SEP_URL=${SEP_URL}
-                        export STRIPE_CREDENTIALS=$STRIPE_JSON_PATH
-                        npx cucumber-js --tags "@smoke" --format json:reports/json/cucumber_report.json
-                    '''
+                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                    configFileProvider([configFile(fileId: 'stripe-vars.json', variable: 'STRIPE_JSON_PATH')]) {
+                        sh '''
+                            export SEP_USERNAME=${SEP_CREDS_USR}
+                            export SEP_PASSWORD=${SEP_CREDS_PSW}
+                            export SEP_URL=${SEP_URL}
+                            export STRIPE_CREDENTIALS=$STRIPE_JSON_PATH
+                            npx cucumber-js --tags "@smoke" --format json:reports/json/cucumber_report.json
+                        '''
+                    }
                 }
             }
         }
@@ -57,14 +59,16 @@ pipeline {
                 expression { new Date().format('HH', TimeZone.getTimeZone('UTC')) == '19' }
             }
             steps {
-                configFileProvider([configFile(fileId: 'stripe-vars.json', variable: 'STRIPE_JSON_PATH')]) {
-                    sh '''
-                        export SEP_USERNAME=${SEP_CREDS_USR}
-                        export SEP_PASSWORD=${SEP_CREDS_PSW}
-                        export SEP_URL=${SEP_URL}
-                        export STRIPE_CREDENTIALS=$STRIPE_JSON_PATH
-                        npx cucumber-js --tags "@regression" --format json:reports/json/cucumber_report.json
-                    '''
+                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                    configFileProvider([configFile(fileId: 'stripe-vars.json', variable: 'STRIPE_JSON_PATH')]) {
+                        sh '''
+                            export SEP_USERNAME=${SEP_CREDS_USR}
+                            export SEP_PASSWORD=${SEP_CREDS_PSW}
+                            export SEP_URL=${SEP_URL}
+                            export STRIPE_CREDENTIALS=$STRIPE_JSON_PATH
+                            npx cucumber-js --tags "@regression" --format json:reports/json/cucumber_report.json
+                        '''
+                    }
                 }
             }
         }
@@ -76,14 +80,16 @@ pipeline {
                 }
             }
             steps {
-                configFileProvider([configFile(fileId: 'stripe-vars.json', variable: 'STRIPE_JSON_PATH')]) {
-                    sh '''
-                        export SEP_USERNAME=${SEP_CREDS_USR}
-                        export SEP_PASSWORD=${SEP_CREDS_PSW}
-                        export SEP_URL=${SEP_URL}
-                        export STRIPE_CREDENTIALS=$STRIPE_JSON_PATH
-                        npx cucumber-js --format json:reports/json/cucumber_report.json
-                    '''
+                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                    configFileProvider([configFile(fileId: 'stripe-vars.json', variable: 'STRIPE_JSON_PATH')]) {
+                        sh '''
+                            export SEP_USERNAME=${SEP_CREDS_USR}
+                            export SEP_PASSWORD=${SEP_CREDS_PSW}
+                            export SEP_URL=${SEP_URL}
+                            export STRIPE_CREDENTIALS=$STRIPE_JSON_PATH
+                            npx cucumber-js --format json:reports/json/cucumber_report.json
+                        '''
+                    }
                 }
             }
         }
