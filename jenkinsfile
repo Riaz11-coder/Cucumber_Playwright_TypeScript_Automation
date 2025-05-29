@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    parameters {
-        string(name: 'RUN_TYPE', defaultValue: 'scheduled', description: 'Set to "webhook" to trigger webhook-specific tests')
-    }
-
     tools {
         nodejs 'NodeJS_20'
     }
@@ -75,7 +71,9 @@ pipeline {
 
         stage('Run On Webhook') {
             when {
-                expression { params.RUN_TYPE == 'webhook' }
+                not {
+                    triggeredBy cause: 'TimerTrigger'
+                }
             }
             steps {
                 configFileProvider([configFile(fileId: 'stripe-vars.json', variable: 'STRIPE_JSON_PATH')]) {
@@ -100,7 +98,7 @@ pipeline {
             when {
                 allOf {
                     expression { currentBuild.currentResult == 'SUCCESS' }
-                    expression { new Date().format('HH', TimeZone.getTimeZone('UTC')) == '19' } // Deploy only after regression
+                    expression { new Date().format('HH', TimeZone.getTimeZone('UTC')) == '19' }
                 }
             }
             steps {
