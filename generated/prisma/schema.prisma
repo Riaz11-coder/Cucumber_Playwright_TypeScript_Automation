@@ -1,0 +1,412 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model companies {
+  company_id        Int                 @id @default(autoincrement())
+  company_name      String              @unique @db.VarChar(255)
+  address           String?
+  phone             String?             @db.VarChar(20)
+  email             String?             @db.VarChar(255)
+  contact_person    String?             @db.VarChar(255)
+  subscription_plan String?             @default("Basic") @db.VarChar(20)
+  created_at        DateTime?           @default(now()) @db.Timestamp(6)
+  is_active         Boolean?            @default(true)
+  departments       departments[]
+  drivers           drivers[]
+  reports           reports[]
+  service_providers service_providers[]
+  users             users[]
+  vehicles          vehicles[]
+}
+
+model cost_categories {
+  category_id   Int        @id @default(autoincrement())
+  category_name String     @db.VarChar(100)
+  description   String?
+  is_active     Boolean?   @default(true)
+  expenses      expenses[]
+}
+
+model departments {
+  department_id   Int        @id @default(autoincrement())
+  company_id      Int?
+  department_name String     @db.VarChar(255)
+  manager_name    String?    @db.VarChar(255)
+  budget          Decimal?   @db.Decimal(12, 2)
+  companies       companies? @relation(fields: [company_id], references: [company_id], onDelete: NoAction, onUpdate: NoAction)
+  vehicles        vehicles[]
+}
+
+model driver_certifications {
+  certification_id     Int       @id @default(autoincrement())
+  driver_id            Int?
+  certification_name   String?   @db.VarChar(255)
+  issuing_authority    String?   @db.VarChar(255)
+  issue_date           DateTime? @db.Date
+  expiry_date          DateTime? @db.Date
+  certification_number String?   @db.VarChar(100)
+  is_active            Boolean?  @default(true)
+  drivers              drivers?  @relation(fields: [driver_id], references: [driver_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model drivers {
+  driver_id               Int                     @id @default(autoincrement())
+  company_id              Int?
+  employee_id             String?                 @db.VarChar(50)
+  first_name              String                  @db.VarChar(100)
+  last_name               String                  @db.VarChar(100)
+  license_number          String                  @unique @db.VarChar(50)
+  license_class           String?                 @db.VarChar(10)
+  license_expiry_date     DateTime?               @db.Date
+  date_of_birth           DateTime?               @db.Date
+  hire_date               DateTime?               @db.Date
+  phone                   String?                 @db.VarChar(20)
+  email                   String?                 @db.VarChar(255)
+  address                 String?
+  emergency_contact_name  String?                 @db.VarChar(255)
+  emergency_contact_phone String?                 @db.VarChar(20)
+  salary                  Decimal?                @db.Decimal(10, 2)
+  status                  String?                 @default("active") @db.VarChar(20)
+  safety_score            Decimal?                @default(100.00) @db.Decimal(5, 2)
+  total_miles_driven      Decimal?                @default(0) @db.Decimal(12, 2)
+  years_experience        Int?                    @default(0)
+  created_at              DateTime?               @default(now()) @db.Timestamp(6)
+  driver_certifications   driver_certifications[]
+  companies               companies?              @relation(fields: [company_id], references: [company_id], onDelete: NoAction, onUpdate: NoAction)
+  expenses                expenses[]
+  fuel_transactions       fuel_transactions[]
+  incidents               incidents[]
+  trips                   trips[]
+  vehicle_assignments     vehicle_assignments[]
+  vehicles                vehicles[]
+
+  @@index([company_id, status], map: "idx_drivers_company_status")
+}
+
+model expenses {
+  expense_id        Int              @id @default(autoincrement())
+  vehicle_id        Int?
+  driver_id         Int?
+  category_id       Int?
+  expense_date      DateTime         @db.Date
+  amount            Decimal          @db.Decimal(12, 2)
+  description       String?
+  vendor            String?          @db.VarChar(255)
+  invoice_number    String?          @db.VarChar(100)
+  receipt_available Boolean?         @default(false)
+  approved_by       String?          @db.VarChar(255)
+  approval_date     DateTime?        @db.Date
+  reimbursable      Boolean?         @default(false)
+  notes             String?
+  created_at        DateTime?        @default(now()) @db.Timestamp(6)
+  cost_categories   cost_categories? @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction)
+  drivers           drivers?         @relation(fields: [driver_id], references: [driver_id], onDelete: NoAction, onUpdate: NoAction)
+  vehicles          vehicles?        @relation(fields: [vehicle_id], references: [vehicle_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([vehicle_id, expense_date], map: "idx_expenses_vehicle_date")
+}
+
+model fuel_stations {
+  station_id           Int                 @id @default(autoincrement())
+  station_name         String?             @db.VarChar(255)
+  address              String?
+  latitude             Decimal?            @db.Decimal(10, 8)
+  longitude            Decimal?            @db.Decimal(11, 8)
+  brand                String?             @db.VarChar(100)
+  has_fleet_card       Boolean?            @default(false)
+  avg_price_per_gallon Decimal?            @db.Decimal(6, 3)
+  fuel_transactions    fuel_transactions[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model fuel_transactions {
+  transaction_id        Int            @id @default(autoincrement())
+  vehicle_id            Int?
+  driver_id             Int?
+  fuel_station_id       Int?
+  transaction_date      DateTime       @db.Timestamp(6)
+  odometer_reading      Decimal?       @db.Decimal(12, 2)
+  gallons_purchased     Decimal?       @db.Decimal(8, 3)
+  price_per_gallon      Decimal?       @db.Decimal(6, 3)
+  total_amount          Decimal?       @db.Decimal(10, 2)
+  fuel_type             String?        @db.VarChar(50)
+  payment_method        String?        @default("fleet_card") @db.VarChar(20)
+  card_number_last_four String?        @db.VarChar(4)
+  receipt_number        String?        @db.VarChar(100)
+  mpg_calculated        Decimal?       @db.Decimal(6, 2)
+  notes                 String?
+  drivers               drivers?       @relation(fields: [driver_id], references: [driver_id], onDelete: NoAction, onUpdate: NoAction)
+  fuel_stations         fuel_stations? @relation(fields: [fuel_station_id], references: [station_id], onDelete: NoAction, onUpdate: NoAction)
+  vehicles              vehicles?      @relation(fields: [vehicle_id], references: [vehicle_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([vehicle_id, transaction_date], map: "idx_fuel_transactions_vehicle_date")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model gps_tracking {
+  tracking_id        Int       @id @default(autoincrement())
+  vehicle_id         Int?
+  timestamp          DateTime  @db.Timestamp(6)
+  latitude           Decimal?  @db.Decimal(10, 8)
+  longitude          Decimal?  @db.Decimal(11, 8)
+  speed              Decimal?  @db.Decimal(6, 2)
+  heading            Int?
+  altitude           Decimal?  @db.Decimal(8, 2)
+  gps_quality        String?   @db.VarChar(20)
+  engine_status      String?   @db.VarChar(20)
+  fuel_level_percent Decimal?  @db.Decimal(5, 2)
+  odometer           Decimal?  @db.Decimal(12, 2)
+  vehicles           vehicles? @relation(fields: [vehicle_id], references: [vehicle_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([vehicle_id, timestamp], map: "idx_gps_tracking_vehicle_timestamp")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model incidents {
+  incident_id            Int       @id @default(autoincrement())
+  vehicle_id             Int?
+  driver_id              Int?
+  incident_date          DateTime  @db.Timestamp(6)
+  incident_type          String    @db.VarChar(20)
+  severity               String    @db.VarChar(20)
+  location               String?   @db.VarChar(255)
+  description            String
+  police_report_number   String?   @db.VarChar(100)
+  insurance_claim_number String?   @db.VarChar(100)
+  estimated_damage_cost  Decimal?  @db.Decimal(12, 2)
+  actual_repair_cost     Decimal?  @db.Decimal(12, 2)
+  injuries_reported      Boolean?  @default(false)
+  fatalities             Boolean?  @default(false)
+  at_fault               Boolean?
+  weather_conditions     String?   @db.VarChar(100)
+  road_conditions        String?   @db.VarChar(100)
+  photos_available       Boolean?  @default(false)
+  status                 String?   @default("reported") @db.VarChar(20)
+  resolution_date        DateTime? @db.Date
+  lessons_learned        String?
+  created_at             DateTime? @default(now()) @db.Timestamp(6)
+  drivers                drivers?  @relation(fields: [driver_id], references: [driver_id], onDelete: NoAction, onUpdate: NoAction)
+  vehicles               vehicles? @relation(fields: [vehicle_id], references: [vehicle_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([vehicle_id, incident_date], map: "idx_incidents_vehicle_date")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model maintenance_records {
+  maintenance_id         Int                @id @default(autoincrement())
+  vehicle_id             Int?
+  maintenance_type_id    Int?
+  service_provider_id    Int?
+  scheduled_date         DateTime?          @db.Date
+  completed_date         DateTime?          @db.Date
+  odometer_at_service    Decimal?           @db.Decimal(12, 2)
+  cost                   Decimal?           @db.Decimal(10, 2)
+  labor_hours            Decimal?           @db.Decimal(5, 2)
+  description            String?
+  parts_used             String?
+  technician_name        String?            @db.VarChar(255)
+  status                 String?            @default("scheduled") @db.VarChar(20)
+  next_service_due_date  DateTime?          @db.Date
+  next_service_due_miles Decimal?           @db.Decimal(12, 2)
+  warranty_expiry_date   DateTime?          @db.Date
+  invoice_number         String?            @db.VarChar(100)
+  notes                  String?
+  created_at             DateTime?          @default(now()) @db.Timestamp(6)
+  maintenance_types      maintenance_types? @relation(fields: [maintenance_type_id], references: [maintenance_type_id], onDelete: NoAction, onUpdate: NoAction)
+  service_providers      service_providers? @relation(fields: [service_provider_id], references: [provider_id], onDelete: NoAction, onUpdate: NoAction)
+  vehicles               vehicles?          @relation(fields: [vehicle_id], references: [vehicle_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([vehicle_id, completed_date], map: "idx_maintenance_vehicle_date")
+}
+
+model maintenance_types {
+  maintenance_type_id         Int                   @id @default(autoincrement())
+  type_name                   String                @db.VarChar(100)
+  description                 String?
+  recommended_interval_miles  Int?
+  recommended_interval_months Int?
+  estimated_cost              Decimal?              @db.Decimal(8, 2)
+  maintenance_records         maintenance_records[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model reports {
+  report_id        Int        @id @default(autoincrement())
+  company_id       Int?
+  report_name      String     @db.VarChar(255)
+  report_type      String     @db.VarChar(20)
+  generated_by     Int?
+  generation_date  DateTime?  @default(now()) @db.Timestamp(6)
+  date_range_start DateTime?  @db.Date
+  date_range_end   DateTime?  @db.Date
+  parameters       Json?      @db.Json
+  file_path        String?    @db.VarChar(500)
+  status           String?    @default("completed") @db.VarChar(20)
+  companies        companies? @relation(fields: [company_id], references: [company_id], onDelete: NoAction, onUpdate: NoAction)
+  users            users?     @relation(fields: [generated_by], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([company_id, report_type], map: "idx_reports_company_type")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model safety_inspections {
+  inspection_id       Int       @id @default(autoincrement())
+  vehicle_id          Int?
+  inspector_name      String?   @db.VarChar(255)
+  inspection_date     DateTime  @db.Date
+  inspection_type     String    @db.VarChar(20)
+  odometer_reading    Decimal?  @db.Decimal(12, 2)
+  overall_score       Decimal?  @db.Decimal(5, 2)
+  passed              Boolean
+  defects_found       Int?      @default(0)
+  critical_defects    Int?      @default(0)
+  notes               String?
+  next_inspection_due DateTime? @db.Date
+  certificate_number  String?   @db.VarChar(100)
+  vehicles            vehicles? @relation(fields: [vehicle_id], references: [vehicle_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model service_providers {
+  provider_id         Int                   @id @default(autoincrement())
+  company_id          Int?
+  provider_name       String                @db.VarChar(255)
+  service_type        String                @db.VarChar(20)
+  contact_person      String?               @db.VarChar(255)
+  phone               String?               @db.VarChar(20)
+  email               String?               @db.VarChar(255)
+  address             String?
+  hourly_rate         Decimal?              @db.Decimal(8, 2)
+  rating              Decimal?              @db.Decimal(3, 2)
+  is_preferred        Boolean?              @default(false)
+  maintenance_records maintenance_records[]
+  companies           companies?            @relation(fields: [company_id], references: [company_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model trips {
+  trip_id                  Int       @id @default(autoincrement())
+  vehicle_id               Int?
+  driver_id                Int?
+  start_time               DateTime? @db.Timestamp(6)
+  end_time                 DateTime? @db.Timestamp(6)
+  start_location           String?   @db.VarChar(255)
+  end_location             String?   @db.VarChar(255)
+  start_odometer           Decimal?  @db.Decimal(12, 2)
+  end_odometer             Decimal?  @db.Decimal(12, 2)
+  distance_traveled        Decimal?  @db.Decimal(8, 2)
+  purpose                  String?   @db.VarChar(255)
+  trip_type                String?   @default("business") @db.VarChar(20)
+  fuel_consumed            Decimal?  @db.Decimal(8, 3)
+  average_speed            Decimal?  @db.Decimal(6, 2)
+  max_speed                Decimal?  @db.Decimal(6, 2)
+  idle_time_minutes        Int?      @default(0)
+  harsh_braking_count      Int?      @default(0)
+  harsh_acceleration_count Int?      @default(0)
+  speeding_violations      Int?      @default(0)
+  route_efficiency_score   Decimal?  @db.Decimal(5, 2)
+  cost                     Decimal?  @db.Decimal(10, 2)
+  notes                    String?
+  created_at               DateTime? @default(now()) @db.Timestamp(6)
+  drivers                  drivers?  @relation(fields: [driver_id], references: [driver_id], onDelete: NoAction, onUpdate: NoAction)
+  vehicles                 vehicles? @relation(fields: [vehicle_id], references: [vehicle_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([vehicle_id, start_time], map: "idx_trips_vehicle_date")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model users {
+  user_id       Int        @id @default(autoincrement())
+  company_id    Int?
+  username      String     @unique @db.VarChar(100)
+  email         String     @unique @db.VarChar(255)
+  password_hash String     @db.VarChar(255)
+  first_name    String?    @db.VarChar(100)
+  last_name     String?    @db.VarChar(100)
+  role          String     @db.VarChar(20)
+  phone         String?    @db.VarChar(20)
+  is_active     Boolean?   @default(true)
+  last_login    DateTime?  @db.Timestamp(6)
+  created_at    DateTime?  @default(now()) @db.Timestamp(6)
+  reports       reports[]
+  companies     companies? @relation(fields: [company_id], references: [company_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([company_id, role], map: "idx_users_company_role")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model vehicle_assignments {
+  assignment_id   Int       @id @default(autoincrement())
+  vehicle_id      Int?
+  driver_id       Int?
+  assigned_date   DateTime  @db.Date
+  end_date        DateTime? @db.Date
+  assignment_type String?   @default("permanent") @db.VarChar(20)
+  notes           String?
+  is_active       Boolean?  @default(true)
+  drivers         drivers?  @relation(fields: [driver_id], references: [driver_id], onDelete: NoAction, onUpdate: NoAction)
+  vehicles        vehicles? @relation(fields: [vehicle_id], references: [vehicle_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model vehicle_types {
+  type_id                   Int        @id @default(autoincrement())
+  type_name                 String     @db.VarChar(100)
+  description               String?
+  fuel_efficiency_rating    Decimal?   @db.Decimal(5, 2)
+  capacity_passengers       Int?
+  capacity_cargo_cubic_feet Decimal?   @db.Decimal(8, 2)
+  vehicles                  vehicles[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model vehicles {
+  vehicle_id              Int                   @id @default(autoincrement())
+  company_id              Int?
+  vehicle_type_id         Int?
+  vin                     String                @unique @db.VarChar(17)
+  license_plate           String                @unique @db.VarChar(20)
+  make                    String                @db.VarChar(100)
+  model                   String                @db.VarChar(100)
+  year                    Int
+  color                   String?               @db.VarChar(50)
+  fuel_type               String                @db.VarChar(20)
+  engine_size             String?               @db.VarChar(20)
+  transmission            String?               @default("automatic") @db.VarChar(20)
+  purchase_date           DateTime?             @db.Date
+  purchase_price          Decimal?              @db.Decimal(12, 2)
+  current_value           Decimal?              @db.Decimal(12, 2)
+  odometer_reading        Decimal?              @default(0) @db.Decimal(12, 2)
+  fuel_capacity           Decimal?              @db.Decimal(8, 2)
+  insurance_policy_number String?               @db.VarChar(100)
+  insurance_expiry        DateTime?             @db.Date
+  registration_expiry     DateTime?             @db.Date
+  status                  String?               @default("active") @db.VarChar(20)
+  gps_device_id           String?               @db.VarChar(100)
+  assigned_driver_id      Int?
+  department_id           Int?
+  notes                   String?
+  created_at              DateTime?             @default(now()) @db.Timestamp(6)
+  expenses                expenses[]
+  fuel_transactions       fuel_transactions[]
+  gps_tracking            gps_tracking[]
+  incidents               incidents[]
+  maintenance_records     maintenance_records[]
+  safety_inspections      safety_inspections[]
+  trips                   trips[]
+  vehicle_assignments     vehicle_assignments[]
+  drivers                 drivers?              @relation(fields: [assigned_driver_id], references: [driver_id], onDelete: NoAction, onUpdate: NoAction)
+  companies               companies?            @relation(fields: [company_id], references: [company_id], onDelete: NoAction, onUpdate: NoAction)
+  departments             departments?          @relation(fields: [department_id], references: [department_id], onDelete: NoAction, onUpdate: NoAction)
+  vehicle_types           vehicle_types?        @relation(fields: [vehicle_type_id], references: [type_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([company_id, status], map: "idx_vehicles_company_status")
+}

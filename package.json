@@ -10,6 +10,7 @@
     "test:smoke": "npx cucumber-js --tags @smoke",
     "test:api": "cross-env TEST_TYPE=api npx cucumber-js --tags @api",
     "test:ui": "cross-env TEST_TYPE=ui npx cucumber-js --tags @ui",
+    "test:db": "npx cucumber-js --tags @db",
     "Mac-open:report": "open reports/cucumber-report.html",
     "Windows-open:report": "start reports/cucumber-report.html"
   },
@@ -29,6 +30,8 @@
     "typescript": "^5.8.2"
   },
   "devDependencies": {
+    "@prisma/client": "^6.8.2",
+    "prisma": "^6.8.2",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^22.14.0",
     "cucumber-html-reporter": "^7.2.0",

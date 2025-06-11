@@ -1,85 +1,67 @@
 [
   {
-    "description": "    As a customer, I should be able to click on the next button on step 2 when I select a plan.",
+    "description": "    As a database administrator\n    I want to enforce data integrity rules\n    So that the database remains consistent",
     "elements": [
       {
         "description": "",
-        "id": "click-on-the-next-button-on-payment-plans-page---#!-test-only;verify-next-button-is-enabled-after-selecting-a-payment-plan",
-        "keyword": "Scenario Outline",
-        "line": 25,
-        "name": "Verify next button is enabled after selecting a payment plan",
+        "id": "data-integrity-constraints;prevent-duplicate-company-names",
+        "keyword": "Scenario",
+        "line": 7,
+        "name": "Prevent duplicate company names",
         "steps": [
           {
             "keyword": "Before",
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 2150553388
+              "duration": 1810695279
+            }
+          },
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 325183274
             }
           },
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 15,
-            "name": "user is on the enrollment page",
+            "line": 8,
+            "name": "a company named \"Unique Corp\" exists",
             "match": {
-              "location": "steps/getting-started/startAndRefundDates.ts:6"
+              "location": "steps/transmuda-database/integritySteps.ts:5"
             },
             "result": {
               "status": "passed",
-              "duration": 2980662054
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 16,
-            "name": "user has completed step one with valid information",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:7"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 502057087
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 17,
-            "name": "user is on step two of the enrollment process",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:11"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 603380327
+              "duration": 14673452
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
-            "line": 20,
-            "name": "user selects the \"Upfront\" payment plan",
+            "line": 9,
+            "name": "I try to create another company named \"Unique Corp\"",
             "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:18"
+              "location": "steps/transmuda-database/integritySteps.ts:14"
             },
             "result": {
               "status": "passed",
-              "duration": 115809406
+              "duration": 17305562
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 21,
-            "name": "the next button should be enabled",
+            "line": 10,
+            "name": "the operation should fail with a unique constraint error",
             "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:36"
+              "location": "steps/transmuda-database/integritySteps.ts:70"
             },
             "result": {
               "status": "passed",
-              "duration": 13543051
+              "duration": 1938492
             }
           },
           {
@@ -87,13 +69,17 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 982980192
+              "duration": 292721208
             }
           }
         ],
         "tags": [
           {
-            "name": "@sep16",
+            "name": "@db",
+            "line": 1
+          },
+          {
+            "name": "@integrity",
             "line": 1
           }
         ],
@@ -101,82 +87,64 @@
       },
       {
         "description": "",
-        "id": "click-on-the-next-button-on-payment-plans-page---#!-test-only;verify-next-button-is-enabled-after-selecting-a-payment-plan",
-        "keyword": "Scenario Outline",
-        "line": 26,
-        "name": "Verify next button is enabled after selecting a payment plan",
+        "id": "data-integrity-constraints;prevent-duplicate-driver-license-numbers",
+        "keyword": "Scenario",
+        "line": 12,
+        "name": "Prevent duplicate driver license numbers",
         "steps": [
           {
             "keyword": "Before",
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 2443784484
+              "duration": 1576368165
+            }
+          },
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 388590974
             }
           },
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 15,
-            "name": "user is on the enrollment page",
+            "line": 13,
+            "name": "a driver exists with license number \"DL-12345\"",
             "match": {
-              "location": "steps/getting-started/startAndRefundDates.ts:6"
+              "location": "steps/transmuda-database/integritySteps.ts:28"
             },
             "result": {
               "status": "passed",
-              "duration": 2069468301
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 16,
-            "name": "user has completed step one with valid information",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:7"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 765123730
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 17,
-            "name": "user is on step two of the enrollment process",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:11"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 441955884
+              "duration": 16988645
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
-            "line": 20,
-            "name": "user selects the \"5 Installments\" payment plan",
+            "line": 14,
+            "name": "I try to create another driver with license number \"DL-12345\"",
             "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:18"
+              "location": "steps/transmuda-database/integritySteps.ts:44"
             },
             "result": {
               "status": "passed",
-              "duration": 211776597
+              "duration": 11081796
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 21,
-            "name": "the next button should be enabled",
+            "line": 15,
+            "name": "the operation should fail with a unique constraint error",
             "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:36"
+              "location": "steps/transmuda-database/integritySteps.ts:70"
             },
             "result": {
               "status": "passed",
-              "duration": 29971207
+              "duration": 1332616
             }
           },
           {
@@ -184,600 +152,322 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 747928636
+              "duration": 263375158
             }
           }
         ],
         "tags": [
           {
-            "name": "@sep16",
+            "name": "@db",
             "line": 1
-          }
-        ],
-        "type": "scenario"
-      },
-      {
-        "description": "",
-        "id": "click-on-the-next-button-on-payment-plans-page---#!-test-only;navigate-to-step-three-after-selecting-a-payment-plan",
-        "keyword": "Scenario Outline",
-        "line": 39,
-        "name": "Navigate to step three after selecting a payment plan",
-        "steps": [
-          {
-            "keyword": "Before",
-            "hidden": true,
-            "result": {
-              "status": "passed",
-              "duration": 1951314596
-            }
           },
           {
-            "arguments": [],
-            "keyword": "Given ",
-            "line": 15,
-            "name": "user is on the enrollment page",
-            "match": {
-              "location": "steps/getting-started/startAndRefundDates.ts:6"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 3098161822
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 16,
-            "name": "user has completed step one with valid information",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:7"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 586397597
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 17,
-            "name": "user is on step two of the enrollment process",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:11"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 580828180
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "When ",
-            "line": 29,
-            "name": "user selects the \"Upfront\" payment plan",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:18"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 718650508
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 30,
-            "name": "user clicks on the next button",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:32"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 116129715
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 31,
-            "name": "the Step 3 page should be displayed",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:40"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 12778303
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 32,
-            "name": "the payment component should be displayed",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:44"
-            },
-            "result": {
-              "status": "failed",
-              "duration": 5417726550,
-              "error_message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: locator('//form[@id=\\'payment-form\\']')\nExpected: visible\nReceived: hidden\nCall log:\n\u001b[2m  - locator._expect with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('//form[@id=\\'payment-form\\']')\u001b[22m\n\u001b[2m    8 × locator resolved to <form novalidate=\"\" id=\"payment-form\" _ngcontent-ng-c1610874379=\"\" ng-reflect-form=\"[object Object]\" class=\"ng-untouched ng-pristine ng-invalid\">…</form>\u001b[22m\n\u001b[2m      - unexpected value \"hidden\"\u001b[22m\n\n    at Proxy.<anonymous> (/Users/riazahmed/Desktop/VS Code Projects/sep-automation-ts-1/node_modules/playwright/lib/matchers/expect.js:221:24)\n    at CustomWorld.<anonymous> (/Users/riazahmed/Desktop/VS Code Projects/sep-automation-ts-1/steps/payment-plans/clickNextButtonStep2.ts:45:49)"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 33,
-            "name": "a price summary should be displayed",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:48"
-            },
-            "result": {
-              "status": "skipped",
-              "duration": 0
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 34,
-            "name": "the back button should be displayed",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:55"
-            },
-            "result": {
-              "status": "skipped",
-              "duration": 0
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 35,
-            "name": "the pay button should be displayed by default",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:59"
-            },
-            "result": {
-              "status": "skipped",
-              "duration": 0
-            }
-          },
-          {
-            "keyword": "After",
-            "hidden": true,
-            "result": {
-              "status": "passed",
-              "duration": 1575115095
-            }
-          }
-        ],
-        "tags": [
-          {
-            "name": "@sep16",
-            "line": 1
-          }
-        ],
-        "type": "scenario"
-      },
-      {
-        "description": "",
-        "id": "click-on-the-next-button-on-payment-plans-page---#!-test-only;navigate-to-step-three-after-selecting-a-payment-plan",
-        "keyword": "Scenario Outline",
-        "line": 40,
-        "name": "Navigate to step three after selecting a payment plan",
-        "steps": [
-          {
-            "keyword": "Before",
-            "hidden": true,
-            "result": {
-              "status": "passed",
-              "duration": 2219510683
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Given ",
-            "line": 15,
-            "name": "user is on the enrollment page",
-            "match": {
-              "location": "steps/getting-started/startAndRefundDates.ts:6"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 2719609959
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 16,
-            "name": "user has completed step one with valid information",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:7"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 587288853
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 17,
-            "name": "user is on step two of the enrollment process",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:11"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 525148428
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "When ",
-            "line": 29,
-            "name": "user selects the \"5 Installments\" payment plan",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:18"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 75172365
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 30,
-            "name": "user clicks on the next button",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:32"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 357327160
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 31,
-            "name": "the Step 3 page should be displayed",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:40"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 46233216
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 32,
-            "name": "the payment component should be displayed",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:44"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 4990491129
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 33,
-            "name": "a price summary should be displayed",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:48"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 1216806171
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 34,
-            "name": "the back button should be displayed",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:55"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 62908426
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 35,
-            "name": "the pay button should be displayed by default",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:59"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 42738122
-            }
-          },
-          {
-            "keyword": "After",
-            "hidden": true,
-            "result": {
-              "status": "passed",
-              "duration": 700838096
-            }
-          }
-        ],
-        "tags": [
-          {
-            "name": "@sep16",
-            "line": 1
-          }
-        ],
-        "type": "scenario"
-      },
-      {
-        "description": "",
-        "id": "click-on-the-next-button-on-payment-plans-page---#!-test-only;verify-stepper-color-changes-after-selecting-a-payment-plan",
-        "keyword": "Scenario Outline",
-        "line": 50,
-        "name": "Verify stepper color changes after selecting a payment plan",
-        "steps": [
-          {
-            "keyword": "Before",
-            "hidden": true,
-            "result": {
-              "status": "passed",
-              "duration": 6478050285
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Given ",
-            "line": 15,
-            "name": "user is on the enrollment page",
-            "match": {
-              "location": "steps/getting-started/startAndRefundDates.ts:6"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 2425695266
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 16,
-            "name": "user has completed step one with valid information",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:7"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 213326116
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 17,
-            "name": "user is on step two of the enrollment process",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:11"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 401169485
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "When ",
-            "line": 43,
-            "name": "user selects the \"Upfront\" payment plan",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:18"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 117336406
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 44,
-            "name": "user clicks on the next button",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:32"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 301453203
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 45,
-            "name": "the stepper should show steps 1 and 2 as green",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:63"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 34700262
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 46,
-            "name": "step 3 should be blue",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:76"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 74215946
-            }
-          },
-          {
-            "keyword": "After",
-            "hidden": true,
-            "result": {
-              "status": "passed",
-              "duration": 605458662
-            }
-          }
-        ],
-        "tags": [
-          {
-            "name": "@sep16",
-            "line": 1
-          }
-        ],
-        "type": "scenario"
-      },
-      {
-        "description": "",
-        "id": "click-on-the-next-button-on-payment-plans-page---#!-test-only;verify-stepper-color-changes-after-selecting-a-payment-plan",
-        "keyword": "Scenario Outline",
-        "line": 51,
-        "name": "Verify stepper color changes after selecting a payment plan",
-        "steps": [
-          {
-            "keyword": "Before",
-            "hidden": true,
-            "result": {
-              "status": "passed",
-              "duration": 6031572861
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Given ",
-            "line": 15,
-            "name": "user is on the enrollment page",
-            "match": {
-              "location": "steps/getting-started/startAndRefundDates.ts:6"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 2535691102
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 16,
-            "name": "user has completed step one with valid information",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:7"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 312004138
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 17,
-            "name": "user is on step two of the enrollment process",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:11"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 464677239
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "When ",
-            "line": 43,
-            "name": "user selects the \"5 Installments\" payment plan",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:18"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 181818441
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 44,
-            "name": "user clicks on the next button",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:32"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 291198676
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 45,
-            "name": "the stepper should show steps 1 and 2 as green",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:63"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 33519754
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 46,
-            "name": "step 3 should be blue",
-            "match": {
-              "location": "steps/payment-plans/clickNextButtonStep2.ts:76"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 42654789
-            }
-          },
-          {
-            "keyword": "After",
-            "hidden": true,
-            "result": {
-              "status": "passed",
-              "duration": 392045196
-            }
-          }
-        ],
-        "tags": [
-          {
-            "name": "@sep16",
+            "name": "@integrity",
             "line": 1
           }
         ],
         "type": "scenario"
       }
     ],
-    "id": "click-on-the-next-button-on-payment-plans-page---#!-test-only",
+    "id": "data-integrity-constraints",
     "line": 2,
     "keyword": "Feature",
-    "name": "Click on the next button on payment plans page   #! Test Only",
+    "name": "Data Integrity Constraints",
     "tags": [
       {
-        "name": "@sep16",
+        "name": "@db",
+        "line": 1
+      },
+      {
+        "name": "@integrity",
         "line": 1
       }
     ],
-    "uri": "features/payment-plans/ClickNextButtonStep2.feature"
+    "uri": "features/db/data_integrity.feature"
+  },
+  {
+    "description": "    As a system administrator\n    I want to manage company records\n    So that I can maintain accurate company information",
+    "elements": [
+      {
+        "description": "",
+        "id": "company-crud-operations;create-and-read-a-company",
+        "keyword": "Scenario",
+        "line": 7,
+        "name": "Create and read a company",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 1474188124
+            }
+          },
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 254575926
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I have a new company named \"Acme Corp\"",
+            "match": {
+              "location": "steps/transmuda-database/companySteps.ts:5"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2190104
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 9,
+            "name": "I create the company in the database",
+            "match": {
+              "location": "steps/transmuda-database/companySteps.ts:14"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3354508
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 10,
+            "name": "the company should exist with name \"Acme Corp\"",
+            "match": {
+              "location": "steps/transmuda-database/companySteps.ts:22"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4229070
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 326497371
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@db",
+            "line": 1
+          },
+          {
+            "name": "@functional",
+            "line": 1
+          },
+          {
+            "name": "@crud",
+            "line": 1
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "company-crud-operations;update-a-company",
+        "keyword": "Scenario",
+        "line": 12,
+        "name": "Update a company",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 1572814169
+            }
+          },
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 260010596
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 13,
+            "name": "an existing company named \"Beta Inc\"",
+            "match": {
+              "location": "steps/transmuda-database/companySteps.ts:33"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4086939
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 14,
+            "name": "I update the company email to \"contact@beta.com\"",
+            "match": {
+              "location": "steps/transmuda-database/companySteps.ts:42"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4415351
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 15,
+            "name": "the company should have email \"contact@beta.com\"",
+            "match": {
+              "location": "steps/transmuda-database/companySteps.ts:51"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4109474
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 291412755
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@db",
+            "line": 1
+          },
+          {
+            "name": "@functional",
+            "line": 1
+          },
+          {
+            "name": "@crud",
+            "line": 1
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "company-crud-operations;delete-a-company",
+        "keyword": "Scenario",
+        "line": 17,
+        "name": "Delete a company",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 1414295857
+            }
+          },
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 215382247
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 18,
+            "name": "an existing company named \"Gamma LLC\"",
+            "match": {
+              "location": "steps/transmuda-database/companySteps.ts:33"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3316816
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 19,
+            "name": "I delete the company",
+            "match": {
+              "location": "steps/transmuda-database/companySteps.ts:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3841807
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 20,
+            "name": "the company should not exist in the database",
+            "match": {
+              "location": "steps/transmuda-database/companySteps.ts:69"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1711586
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 256312078
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@db",
+            "line": 1
+          },
+          {
+            "name": "@functional",
+            "line": 1
+          },
+          {
+            "name": "@crud",
+            "line": 1
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "company-crud-operations",
+    "line": 2,
+    "keyword": "Feature",
+    "name": "Company CRUD Operations",
+    "tags": [
+      {
+        "name": "@db",
+        "line": 1
+      },
+      {
+        "name": "@functional",
+        "line": 1
+      },
+      {
+        "name": "@crud",
+        "line": 1
+      }
+    ],
+    "uri": "features/db/transmuda_database/company_crud.feature"
   }
 ]

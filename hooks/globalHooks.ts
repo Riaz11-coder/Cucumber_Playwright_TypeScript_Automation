@@ -8,6 +8,9 @@ import { ApiClient } from '../utilities/apiClient';
 import { apiConfig } from '../configs/apiConfig';
 import type { Booking } from '../models/booking';
 import fsExtra from 'fs-extra';
+import { prisma, dbFactories } from "../utilities/prismaTypes";
+import { resetDatabase, testData } from "../utilities/dbUtils";
+
 
 
 dotenv.config();
@@ -21,10 +24,23 @@ const MAXIMIZED_WINDOW: boolean = true;
 const SLOW_MOTION_DELAY: number = 0; // slow mode in milliseconds
 const DEFAULT_TIMEOUT: number = 30000; // default timeout in milliseconds
 
+// Global DB connection flag
+let isDbConnected = false;
+
 /**
  * Before hook: Initializes the test environment before each scenario
  */
 Before(async function (this: CustomWorld) {
+   if (!isDbConnected) {
+    try {
+      await prisma.$connect();
+      console.log("Database connected successfully");
+      isDbConnected = true;
+    } catch (error) {
+      console.error("Failed to connect to database:", error);
+      throw error;
+    }
+  }
   await this.init();
 });
 
@@ -50,6 +66,29 @@ After(async function (this: CustomWorld, scenario) {
   }
   await this.close();
 });
+
+/**
+ * Tag-specific hook for database reset
+ */
+Before({ tags: "@db" }, async function () {
+  await resetDatabase();
+  console.log("Database reset complete");
+});
+
+/**
+ * Global teardown for database connection
+ */
+process.on("beforeExit", async () => {
+  if (isDbConnected) {
+    try {
+      await prisma.$disconnect();
+      console.log("Database disconnected successfully");
+    } catch (e) {
+      console.warn("Error disconnecting Prisma client:", e);
+    }
+  }
+});
+
 
 /**
  * Takes a screenshot of the current page
@@ -90,6 +129,22 @@ export class CustomWorld {
   // Data for UI test
   cardNumbers: string[] = [];
   countries: string[] = [];
+
+   // DB utilities and tracking
+  db = prisma;
+  dbUtils = {
+    resetDatabase,
+    testData,
+    dbFactories,
+  };
+  testData: {
+    company?: any;
+    driver?: any;
+    vehicle?: any;
+    department?: any;
+    [key: string]: any;
+  } = {};
+
 
   /**
    * Initializes the browser based on the configured browser type
