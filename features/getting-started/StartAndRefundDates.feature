@@ -1,4 +1,4 @@
-@sep11
+@sep11 @smoke
 Feature: Program start dates and Refund dates
 
     As a customer, I want to see the program start dates and refund policy details before enrolling 
