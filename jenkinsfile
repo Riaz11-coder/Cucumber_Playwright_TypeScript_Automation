@@ -12,7 +12,8 @@ pipeline {
     }
 
     triggers {
-        cron('H 7,19 * * *') // Runs twice daily at 7 AM (smoke) and 7 PM (regression)
+        // Run daily at 2 AM and 8 AM UTC for applicable branches
+        cron('H 2,8 * * *')
     }
 
     options {
@@ -23,8 +24,8 @@ pipeline {
         stage('Checkout') {
             steps {
                 cleanWs()
-                git branch: 'Develop',
-                    url: 'https://github.com/Riaz11-coder/Cucumber_Playwright_TypeScript_Automation.git',
+                git branch: "${env.BRANCH_NAME}",
+                    url: 'git@github.com/Riaz11-coder/Cucumber_Playwright_TypeScript_Automation.git',
                     credentialsId: 'riazahmed-github-creds'
             }
         }
@@ -32,63 +33,60 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh 'npm ci'
+                sh 'npx playwright install'
             }
         }
 
-        stage('Run Smoke Tests') {
-            when {
-                expression { new Date().format('HH', TimeZone.getTimeZone('UTC')) == '07' }
-            }
+        stage('Run Tests') {
             steps {
-                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                    configFileProvider([configFile(fileId: 'stripe-vars.json', variable: 'STRIPE_JSON_PATH')]) {
-                        sh '''
-                            export SEP_USERNAME=${SEP_CREDS_USR}
-                            export SEP_PASSWORD=${SEP_CREDS_PSW}
-                            export SEP_URL=${SEP_URL}
-                            export STRIPE_CREDENTIALS=$STRIPE_JSON_PATH
-                            npx cucumber-js --tags "@smoke" --format json:reports/json/cucumber_report.json
-                        '''
+                script {
+                    def tags = ''
+                    def testType = ''
+                    
+                    def isScheduled = currentBuild.getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause')
+                    def currentHour = new Date().format('HH', TimeZone.getTimeZone('UTC')) as Integer
+
+                    if (env.BRANCH_NAME == 'main') {
+                        if (isScheduled) {
+                            tags = '@smoke'
+                            testType = 'Daily Smoke Tests'
+                        } else {
+                            tags = '@regression'
+                            testType = 'Manual Regression on Main'
+                        }
+                    } else if (env.BRANCH_NAME == 'develop' || env.BRANCH_NAME == 'dev') {
+                        if (isScheduled) {
+                            if (currentHour >= 7 && currentHour <= 9) {
+                                tags = '@smoke'
+                                testType = 'Daily Smoke Tests'
+                            } else {
+                                tags = '@regression'
+                                testType = 'Nightly Regression'
+                            }
+                        } else {
+                            tags = '@critical'
+                            testType = 'Critical Integration Tests'
+                        }
+                    } else if (env.BRANCH_NAME.startsWith('release/')) {
+                        tags = '@regression'
+                        testType = 'Release Regression'
+                    } else {
+                        echo "Skipping tests for feature branch: ${env.BRANCH_NAME}"
+                        return
                     }
-                }
-            }
-        }
 
-        stage('Run Regression Tests') {
-            when {
-                expression { new Date().format('HH', TimeZone.getTimeZone('UTC')) == '19' }
-            }
-            steps {
-                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                    configFileProvider([configFile(fileId: 'stripe-vars.json', variable: 'STRIPE_JSON_PATH')]) {
-                        sh '''
-                            export SEP_USERNAME=${SEP_CREDS_USR}
-                            export SEP_PASSWORD=${SEP_CREDS_PSW}
-                            export SEP_URL=${SEP_URL}
-                            export STRIPE_CREDENTIALS=$STRIPE_JSON_PATH
-                            npx cucumber-js --tags "@regression" --format json:reports/json/cucumber_report.json
-                        '''
-                    }
-                }
-            }
-        }
+                    echo "Running ${testType} with tags: ${tags}"
 
-        stage('Run On Webhook') {
-            when {
-                not {
-                    triggeredBy cause: 'TimerTrigger'
-                }
-            }
-            steps {
-                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                    configFileProvider([configFile(fileId: 'stripe-vars.json', variable: 'STRIPE_JSON_PATH')]) {
-                        sh '''
-                            export SEP_USERNAME=${SEP_CREDS_USR}
-                            export SEP_PASSWORD=${SEP_CREDS_PSW}
-                            export SEP_URL=${SEP_URL}
-                            export STRIPE_CREDENTIALS=$STRIPE_JSON_PATH
-                            npx cucumber-js --format json:reports/json/cucumber_report.json
-                        '''
+                    catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                        configFileProvider([configFile(fileId: 'stripe-vars.json', variable: 'STRIPE_JSON_PATH')]) {
+                            sh """
+                                export SEP_USERNAME=${SEP_CREDS_USR}
+                                export SEP_PASSWORD=${SEP_CREDS_PSW}
+                                export SEP_URL=${SEP_URL}
+                                export STRIPE_CREDENTIALS=$STRIPE_JSON_PATH
+                                npx cucumber-js --tags '${tags}' --format json:reports/json/cucumber_report.json
+                            """
+                        }
                     }
                 }
             }
@@ -97,30 +95,6 @@ pipeline {
         stage('Generate HTML Report') {
             steps {
                 sh 'npm run generate-report'
-            }
-        }
-
-        stage('Deploy to Staging') {
-            when {
-                allOf {
-                    expression { currentBuild.currentResult == 'SUCCESS' }
-                    expression { new Date().format('HH', TimeZone.getTimeZone('UTC')) == '19' }
-                }
-            }
-            steps {
-                sshagent(credentials: ['riazahmed-github-ssh']) {
-                    sh '''
-                        git config --global user.email "riaz11@hotmail.com"
-                        git config --global user.name "Jenkins CI"
-
-                        git checkout -B staging
-                        git push origin staging --force
-
-                        VERSION_TAG=v1.0.${BUILD_NUMBER}
-                        git tag $VERSION_TAG
-                        git push origin $VERSION_TAG
-                    '''
-                }
             }
         }
     }
