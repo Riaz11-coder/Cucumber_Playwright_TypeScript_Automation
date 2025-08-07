@@ -26,7 +26,7 @@ pipeline {
                 cleanWs()
                 git branch: "${env.BRANCH_NAME}",
                     url: 'git@github.com/Riaz11-coder/Cucumber_Playwright_TypeScript_Automation.git',
-                    credentialsId: 'riazahmed-github-creds'
+                    credentialsId: 'riazahmed-github-ssh-multibranch'
             }
         }
 
