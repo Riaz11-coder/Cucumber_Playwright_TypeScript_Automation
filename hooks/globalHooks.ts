@@ -1,29 +1,50 @@
-import { Before, After, setWorldConstructor, setDefaultTimeout, Status } from "@cucumber/cucumber";
+import { Before, After, BeforeAll, setWorldConstructor, setDefaultTimeout, Status } from "@cucumber/cucumber";
 import { Browser, BrowserContext, chromium, firefox, Page, webkit } from "@playwright/test";
 import { initElements } from "../globalPagesSetup";
 import fs from "fs";
 import path from "path";
 import dotenv from 'dotenv';
-import { getStripeCredentials } from '../utilities/jsonUtils';
 import { ApiClient } from '../utilities/apiClient';
 import { apiConfig } from '../configs/apiConfig';
 import type { Booking } from '../models/booking';
+import fsExtra from 'fs-extra';
+import { prisma, dbFactories } from "../utilities/prismaTypes";
+import { resetDatabase, testData } from "../utilities/dbUtils";
+import { takeScreenshot, clearScreenshots } from "../utilities/screenshotUtils";
+
 
 dotenv.config();
 
 /**
  * Configuration constants
  */
-const BROWSER_TYPE: string = "chrome";
-const HEADLESS_MODE: boolean = false;
-const MAXIMIZED_WINDOW: boolean = true;
-const SLOW_MOTION_DELAY: number = 0; // slow mode in milliseconds
-const DEFAULT_TIMEOUT: number = 30000; // default timeout in milliseconds
+const BROWSER_TYPE = "chrome";
+const HEADLESS_MODE = false;
+const MAXIMIZED_WINDOW = true;
+const SLOW_MOTION_DELAY = 0;
+const DEFAULT_TIMEOUT = 30000;
+
+// Global DB connection flag
+let isDbConnected = false;
+
+BeforeAll(async function () {
+  clearScreenshots();
+});
 
 /**
  * Before hook: Initializes the test environment before each scenario
  */
 Before(async function (this: CustomWorld) {
+   if (!isDbConnected) {
+    try {
+      await prisma.$connect();
+      console.log("Database connected successfully");
+      isDbConnected = true;
+    } catch (error) {
+       console.warn("⚠️ Failed to connect to database. Tests will run without DB.");
+      isDbConnected = false;
+    }
+  }
   await this.init();
 });
 
@@ -34,30 +55,55 @@ Before(async function (this: CustomWorld) {
 After(async function (this: CustomWorld, scenario) {
   if (scenario.result?.status === Status.FAILED) {
     await takeScreenshot(this.page, scenario.pickle.name);
+
+    const tracesDir = path.join(process.cwd(), "reports", "traces"); // 🔴 NEW
+    fs.mkdirSync(tracesDir, { recursive: true });                    // 🔴 NEW
+    const currentDateTime: string = new Date().toISOString().replace(/[:T.]/g, "_").slice(0, -5); // 🔴 NEW
+    const traceFileName = `trace-${scenario.pickle.name.replace(/\s+/g, "_")}_${currentDateTime}.zip`; // 🔴 NEW
+    const tracePath = path.join(tracesDir, traceFileName); // 🔴 NEW
+ 
+    await this.context?.tracing.stop({ path: tracePath });           // 🔴 NEW
+  } else {
+    await this.context?.tracing.stop();                               // 🔴 NEW
+
+    
   }
   await this.close();
 });
 
 /**
- * Takes a screenshot of the current page
- * @param page - The Playwright Page object
- * @param scenarioName - The name of the scenario
+ * Tag-specific hook for database reset
  */
-async function takeScreenshot(page: Page | undefined, scenarioName: string): Promise<void> {
-  if (!page) {
-    console.warn("Page object not available, skipping screenshot");
+Before({ tags: "@db" }, async function () {
+  if (!isDbConnected) {
+    console.warn("⚠️ Skipping @db hook: Database is not connected.");
     return;
   }
+  
+  try {
+    await resetDatabase();
+    console.log("✅ Database reset complete");
+  } catch (err) {
+    console.error("❌ Failed to reset database:", err);
+  }
+});
 
-  const screenshotsDir: string = path.join(process.cwd(), "reports", "screenshots");
-  fs.mkdirSync(screenshotsDir, { recursive: true });
-
-  const currentDateTime: string = new Date().toISOString().replace(/[:T.]/g, "_").slice(0, -5);
-  const fileName: string = `${scenarioName.replace(/\s+/g, "_")}_${currentDateTime}.png`;
-  const filePath: string = path.join(screenshotsDir, fileName);
-
-  await page.screenshot({ path: filePath, fullPage: true });
-}
+/**
+ * Global teardown for database connection
+ */
+process.on("beforeExit", async () => {
+  if (isDbConnected) {
+    try {
+      await prisma.$disconnect();
+      console.log("✅ Database disconnected successfully");
+    } catch (e) {
+      console.warn("⚠️ Error disconnecting Prisma client:", e);
+    } 
+    } else {
+    console.log("ℹ️ No active database connection. Skipping disconnect.");
+   
+  }
+});
 
 /**
  * CustomWorld class: Represents the test world for each scenario
@@ -78,6 +124,22 @@ export class CustomWorld {
   cardNumbers: string[] = [];
   countries: string[] = [];
 
+   // DB utilities and tracking
+  db = prisma;
+  dbUtils = {
+    resetDatabase,
+    testData,
+    dbFactories,
+  };
+  testData: {
+    company?: any;
+    driver?: any;
+    vehicle?: any;
+    department?: any;
+    [key: string]: any;
+  } = {};
+
+
   /**
    * Initializes the browser based on the configured browser type
    */
@@ -88,7 +150,7 @@ export class CustomWorld {
       args: MAXIMIZED_WINDOW && BROWSER_TYPE.toLowerCase() === "chrome" ? ["--start-maximized"] : [],
     };
 
-    const browserType: string = BROWSER_TYPE.toLowerCase();
+    const browserType = BROWSER_TYPE.toLowerCase();
     return await (browserType === "firefox" ? firefox : browserType === "webkit" || browserType === "safari" ? webkit : chromium).launch(launchOptions);
   }
 
@@ -105,6 +167,17 @@ export class CustomWorld {
     if (process.env.TEST_TYPE !== 'api') {
       this.browser = await this.initializeBrowser();
       this.context = await this.browser.newContext(MAXIMIZED_WINDOW ? { viewport: null } : {});
+
+
+      // 🔴 Clean up old trace files before starting tracing
+    const tracesDir = path.join(process.cwd(), "reports", "traces");
+    if (fs.existsSync(tracesDir)) {
+      fsExtra.emptyDirSync(tracesDir); // Deletes all contents, but keeps the directory
+    }
+
+    // 🔴 Start tracing
+    await this.context.tracing.start({ screenshots: true, snapshots: true });
+
       this.page = await this.context.newPage();
 
       if (MAXIMIZED_WINDOW) {
@@ -113,14 +186,6 @@ export class CustomWorld {
           height: window.screen.availHeight,
         })));
       }
-
-      // Load and store Stripe credentials from JSON
-      const jsonPath = process.env.STRIPE_CREDENTIALS;
-      if (!jsonPath) throw new Error("STRIPE_CREDENTIALS path not set in .env");
-
-      const { card_numbers, countries } = getStripeCredentials(jsonPath);
-      this.cardNumbers = card_numbers.map(n => n.toString()); // Ensure numbers are strings
-      this.countries = countries;
 
       initElements(this.page);
     }

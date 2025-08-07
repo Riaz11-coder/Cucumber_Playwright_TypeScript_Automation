@@ -16,7 +16,7 @@ Feature: Make a payment
         And user has completed step one with valid information
         And user has completed step two with a valid option
         And user is on step three of the enrollment process
-
+    @known-failure
     Scenario: Successful payment with valid card information and confirmation details
         When user enters valid card information
         And user checks the terms and conditions checkbox

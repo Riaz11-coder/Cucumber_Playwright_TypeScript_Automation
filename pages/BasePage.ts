@@ -1,6 +1,8 @@
 import { expect } from '@playwright/test';
 import { Page } from 'playwright';
 import { BrowserUtility } from '../utilities/Browserutility';
+import dotenv from 'dotenv';
+dotenv.config();
 
 /**
  * BasePage class represents common functionality for all page objects

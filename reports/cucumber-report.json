@@ -1,72 +1,67 @@
 [
   {
-    "description": "    As an API user\n    I want to manage bookings\n    So that I can create, retrieve, update and delete booking records",
+    "description": "    As a database administrator\n    I want to enforce data integrity rules\n    So that the database remains consistent",
     "elements": [
       {
         "description": "",
-        "id": "booking-api;create-a-new-booking",
+        "id": "data-integrity-constraints;prevent-duplicate-company-names",
         "keyword": "Scenario",
-        "line": 17,
-        "name": "Create a new booking",
+        "line": 7,
+        "name": "Prevent duplicate company names",
         "steps": [
           {
             "keyword": "Before",
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 2538176249
+              "duration": 1810695279
+            }
+          },
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 325183274
             }
           },
           {
             "arguments": [],
             "keyword": "Given ",
             "line": 8,
-            "name": "I am authenticated with the booking API",
+            "name": "a company named \"Unique Corp\" exists",
             "match": {
-              "location": "steps/bookings/commonSteps.ts:7"
+              "location": "steps/transmuda-database/integritySteps.ts:5"
             },
             "result": {
               "status": "passed",
-              "duration": 413023666
+              "duration": 14673452
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
-            "line": 18,
-            "name": "I create a new booking with valid details",
+            "line": 9,
+            "name": "I try to create another company named \"Unique Corp\"",
             "match": {
-              "location": "steps/bookings/bookings.ts:15"
+              "location": "steps/transmuda-database/integritySteps.ts:14"
             },
             "result": {
               "status": "passed",
-              "duration": 38056042
+              "duration": 17305562
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 19,
-            "name": "the API response status should be 200",
+            "line": 10,
+            "name": "the operation should fail with a unique constraint error",
             "match": {
-              "location": "steps/bookings/bookings.ts:27"
+              "location": "steps/transmuda-database/integritySteps.ts:70"
             },
             "result": {
               "status": "passed",
-              "duration": 6862458
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 20,
-            "name": "the booking data should be returned",
-            "match": {
-              "location": "steps/bookings/bookings.ts:31"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 8370291
+              "duration": 1938492
             }
           },
           {
@@ -74,65 +69,405 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 157562791
-            }
-          },
-          {
-            "keyword": "After",
-            "hidden": true,
-            "result": {
-              "status": "passed",
-              "duration": 683624
-            }
-          },
-          {
-            "keyword": "After",
-            "hidden": true,
-            "result": {
-              "status": "passed",
-              "duration": 178791
-            }
-          },
-          {
-            "keyword": "After",
-            "hidden": true,
-            "result": {
-              "status": "passed",
-              "duration": 120750
-            }
-          },
-          {
-            "keyword": "After",
-            "hidden": true,
-            "result": {
-              "status": "passed",
-              "duration": 1311250
+              "duration": 292721208
             }
           }
         ],
         "tags": [
           {
-            "name": "@api",
+            "name": "@db",
             "line": 1
           },
           {
-            "name": "@create-booking",
-            "line": 16
+            "name": "@integrity",
+            "line": 1
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "data-integrity-constraints;prevent-duplicate-driver-license-numbers",
+        "keyword": "Scenario",
+        "line": 12,
+        "name": "Prevent duplicate driver license numbers",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 1576368165
+            }
+          },
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 388590974
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 13,
+            "name": "a driver exists with license number \"DL-12345\"",
+            "match": {
+              "location": "steps/transmuda-database/integritySteps.ts:28"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 16988645
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 14,
+            "name": "I try to create another driver with license number \"DL-12345\"",
+            "match": {
+              "location": "steps/transmuda-database/integritySteps.ts:44"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 11081796
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 15,
+            "name": "the operation should fail with a unique constraint error",
+            "match": {
+              "location": "steps/transmuda-database/integritySteps.ts:70"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1332616
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 263375158
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@db",
+            "line": 1
+          },
+          {
+            "name": "@integrity",
+            "line": 1
           }
         ],
         "type": "scenario"
       }
     ],
-    "id": "booking-api",
+    "id": "data-integrity-constraints",
     "line": 2,
     "keyword": "Feature",
-    "name": "Booking API",
+    "name": "Data Integrity Constraints",
     "tags": [
       {
-        "name": "@api",
+        "name": "@db",
+        "line": 1
+      },
+      {
+        "name": "@integrity",
         "line": 1
       }
     ],
-    "uri": "features/bookings/booking.feature"
+    "uri": "features/db/data_integrity.feature"
+  },
+  {
+    "description": "    As a system administrator\n    I want to manage company records\n    So that I can maintain accurate company information",
+    "elements": [
+      {
+        "description": "",
+        "id": "company-crud-operations;create-and-read-a-company",
+        "keyword": "Scenario",
+        "line": 7,
+        "name": "Create and read a company",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 1474188124
+            }
+          },
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 254575926
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I have a new company named \"Acme Corp\"",
+            "match": {
+              "location": "steps/transmuda-database/companySteps.ts:5"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2190104
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 9,
+            "name": "I create the company in the database",
+            "match": {
+              "location": "steps/transmuda-database/companySteps.ts:14"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3354508
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 10,
+            "name": "the company should exist with name \"Acme Corp\"",
+            "match": {
+              "location": "steps/transmuda-database/companySteps.ts:22"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4229070
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 326497371
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@db",
+            "line": 1
+          },
+          {
+            "name": "@functional",
+            "line": 1
+          },
+          {
+            "name": "@crud",
+            "line": 1
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "company-crud-operations;update-a-company",
+        "keyword": "Scenario",
+        "line": 12,
+        "name": "Update a company",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 1572814169
+            }
+          },
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 260010596
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 13,
+            "name": "an existing company named \"Beta Inc\"",
+            "match": {
+              "location": "steps/transmuda-database/companySteps.ts:33"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4086939
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 14,
+            "name": "I update the company email to \"contact@beta.com\"",
+            "match": {
+              "location": "steps/transmuda-database/companySteps.ts:42"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4415351
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 15,
+            "name": "the company should have email \"contact@beta.com\"",
+            "match": {
+              "location": "steps/transmuda-database/companySteps.ts:51"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4109474
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 291412755
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@db",
+            "line": 1
+          },
+          {
+            "name": "@functional",
+            "line": 1
+          },
+          {
+            "name": "@crud",
+            "line": 1
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "company-crud-operations;delete-a-company",
+        "keyword": "Scenario",
+        "line": 17,
+        "name": "Delete a company",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 1414295857
+            }
+          },
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 215382247
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 18,
+            "name": "an existing company named \"Gamma LLC\"",
+            "match": {
+              "location": "steps/transmuda-database/companySteps.ts:33"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3316816
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 19,
+            "name": "I delete the company",
+            "match": {
+              "location": "steps/transmuda-database/companySteps.ts:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3841807
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 20,
+            "name": "the company should not exist in the database",
+            "match": {
+              "location": "steps/transmuda-database/companySteps.ts:69"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1711586
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 256312078
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@db",
+            "line": 1
+          },
+          {
+            "name": "@functional",
+            "line": 1
+          },
+          {
+            "name": "@crud",
+            "line": 1
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "company-crud-operations",
+    "line": 2,
+    "keyword": "Feature",
+    "name": "Company CRUD Operations",
+    "tags": [
+      {
+        "name": "@db",
+        "line": 1
+      },
+      {
+        "name": "@functional",
+        "line": 1
+      },
+      {
+        "name": "@crud",
+        "line": 1
+      }
+    ],
+    "uri": "features/db/transmuda_database/company_crud.feature"
   }
 ]

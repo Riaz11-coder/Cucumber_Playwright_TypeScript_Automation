@@ -1,4 +1,4 @@
-@sep09
+@sep09 @smoke
 Feature: Display the product information
 
     As a customer, I should be able to see the product information.

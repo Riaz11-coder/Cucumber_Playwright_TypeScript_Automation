@@ -1,0 +1,120 @@
+pipeline {
+    agent any
+
+    tools {
+        nodejs 'NodeJS_20'
+    }
+
+    environment {
+        NODE_ENV = 'test'
+        SEP_CREDS = credentials('sep-username')
+        SEP_URL = credentials('sep-url')
+    }
+
+    triggers {
+        // Run daily at 2 AM and 8 AM UTC for applicable branches
+        cron('H 2,8 * * *')
+    }
+
+    options {
+        timestamps()
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                cleanWs()
+                git branch: "${env.BRANCH_NAME}",
+                    url: 'git@github.com/Riaz11-coder/Cucumber_Playwright_TypeScript_Automation.git',
+                    credentialsId: 'riazahmed-github-creds'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm ci'
+                sh 'npx playwright install'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                script {
+                    def tags = ''
+                    def testType = ''
+                    
+                    def isScheduled = currentBuild.getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause')
+                    def currentHour = new Date().format('HH', TimeZone.getTimeZone('UTC')) as Integer
+
+                    if (env.BRANCH_NAME == 'main') {
+                        if (isScheduled) {
+                            tags = '@smoke'
+                            testType = 'Daily Smoke Tests'
+                        } else {
+                            tags = '@regression'
+                            testType = 'Manual Regression on Main'
+                        }
+                    } else if (env.BRANCH_NAME == 'develop' || env.BRANCH_NAME == 'dev') {
+                        if (isScheduled) {
+                            if (currentHour >= 7 && currentHour <= 9) {
+                                tags = '@smoke'
+                                testType = 'Daily Smoke Tests'
+                            } else {
+                                tags = '@regression'
+                                testType = 'Nightly Regression'
+                            }
+                        } else {
+                            tags = '@critical'
+                            testType = 'Critical Integration Tests'
+                        }
+                    } else if (env.BRANCH_NAME.startsWith('release/')) {
+                        tags = '@regression'
+                        testType = 'Release Regression'
+                    } else {
+                        echo "Skipping tests for feature branch: ${env.BRANCH_NAME}"
+                        return
+                    }
+
+                    echo "Running ${testType} with tags: ${tags}"
+
+                    catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                        configFileProvider([configFile(fileId: 'stripe-vars.json', variable: 'STRIPE_JSON_PATH')]) {
+                            sh """
+                                export SEP_USERNAME=${SEP_CREDS_USR}
+                                export SEP_PASSWORD=${SEP_CREDS_PSW}
+                                export SEP_URL=${SEP_URL}
+                                export STRIPE_CREDENTIALS=$STRIPE_JSON_PATH
+                                npx cucumber-js --tags '${tags}' --format json:reports/json/cucumber_report.json
+                            """
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Generate HTML Report') {
+            steps {
+                sh 'npm run generate-report'
+            }
+        }
+    }
+
+    post {
+        always {
+            publishHTML([
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'reports/html',
+                reportFiles: 'index.html',
+                reportName: 'Cucumber Dashboard Report'
+            ])
+        }
+
+        failure {
+            mail to: 'riaz11@hotmail.com',
+                 subject: "❌ Jenkins Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                 body: "Build failed at ${env.BUILD_URL}"
+        }
+    }
+}

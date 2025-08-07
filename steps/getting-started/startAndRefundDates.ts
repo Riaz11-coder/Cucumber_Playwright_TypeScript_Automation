@@ -8,6 +8,7 @@ Given('user is on the enrollment page', async function (): Promise<void> {
 });
 
 Then('the program start date is displayed', async function (): Promise<void> {
+    await page.pause();
     await expect(startApplicationPage.programStartDate).toBeVisible();
 });
 

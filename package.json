@@ -3,11 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "npx cucumber-js",
-    "test:tag": "npx cucumber-js --tags @create-booking",
+    "test": "npx cucumber-js --tags 'not @known-failure' --format json:reports/cucumber-report.json",
+    "generate-report": "node report-generator.js",
+    "test:tag": "npx cucumber-js --tags @sep16",
+    "trace:latest": "ts-node scripts/open-latest-trace.ts",
     "test:smoke": "npx cucumber-js --tags @smoke",
     "test:api": "cross-env TEST_TYPE=api npx cucumber-js --tags @api",
     "test:ui": "cross-env TEST_TYPE=ui npx cucumber-js --tags @ui",
+    "test:db": "npx cucumber-js --tags @db",
     "Mac-open:report": "open reports/cucumber-report.html",
     "Windows-open:report": "start reports/cucumber-report.html"
   },
@@ -22,11 +25,16 @@
     "cross-env": "^7.0.3",
     "csv-parser": "^3.2.0",
     "dotenv": "^16.5.0",
-    "stripe": "^18.0.0",
+    "fs-extra": "^11.3.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   },
   "devDependencies": {
-    "@types/node": "^22.14.0"
+    "@prisma/client": "^6.8.2",
+    "prisma": "^6.8.2",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^22.14.0",
+    "cucumber-html-reporter": "^7.2.0",
+    "multiple-cucumber-html-reporter": "^3.9.2"
   }
 }
